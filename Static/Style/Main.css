@@ -1,14 +1,18 @@
 body 
 {
     background-color: rgba(100, 100, 100, 1);
+    overflow-x: hidden;
 }
 
 #BodyContent 
 {
+    margin: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    top: 0;
     width: 100vw;
     height: calc(100vh - var(--TopbarHeight) - var(--FooterHeight));
+    overflow-y: auto;
 }
