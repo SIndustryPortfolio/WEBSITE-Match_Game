@@ -20,7 +20,7 @@ class Tile
         // Functions
         // INIT
         this.ItemName = ItemName;
-        this.TileNameParagraph.innerHTML = ItemMeta["Emoji"];
+        this.TileNameParagraph.innerHTML = ItemMeta["Visual"];
     }
 
     End() 

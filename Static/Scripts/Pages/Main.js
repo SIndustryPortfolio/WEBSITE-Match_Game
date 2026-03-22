@@ -2,6 +2,7 @@ let PageModule = {};
 
 // Modules
 import ComponentsModule from "../Services/Components.js";
+import DebugModule from "../Services/Debug.js";
 
 // CORE
 let PageComponents = {};
@@ -12,6 +13,8 @@ async function LoadedCallback()
 {
     // Functions
     // INIT
+    
+
     let BodyContentDiv = PageComponents["Topbar"].querySelector("#BodyContent");
     PageComponents["Game"] = await ComponentsModule.GetAndLoadComponent("Game", {"Parent" : BodyContentDiv});
 }
@@ -21,8 +24,16 @@ async function Initialise()
 {
     // Functions
     // INIT
-    PageComponents["Topbar"] = await ComponentsModule.GetAndLoadComponent("Topbar", {"Parent" : document.body});
+    let response = await ComponentsModule.GetAndLoadComponent("Topbar", {"Parent" : document.body});
+
+    console.log("AWAIT RESPONSE");
+    console.log(response);
+
+    //PageComponents["Topbar"] = await ComponentsModule.GetAndLoadComponent("Topbar", {"Parent" : document.body});
     PageComponents["Footer"] = await ComponentsModule.GetAndLoadComponent("Footer", {"Parent" : document.body});
+
+    DebugModule.Print("PageComponents!");
+    DebugModule.Print(PageComponents);
 
     await LoadedCallback();
 }

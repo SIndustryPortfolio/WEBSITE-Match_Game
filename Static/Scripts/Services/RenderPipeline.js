@@ -59,7 +59,7 @@ function Initialise()
 
         // Functions
         // INIT
-        DebugModule.Print("Render Loop | DT: " + DeltaTime + " | AT: " + AccumulatedTime);
+        //DebugModule.Print("Render Loop | DT: " + DeltaTime + " | AT: " + AccumulatedTime);
 
         for (MetaKey in RenderCache) 
         {

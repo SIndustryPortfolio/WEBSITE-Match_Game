@@ -2,6 +2,13 @@ let UtilitiesModule = {};
 
 // Functions
 // MECHANICS
+UtilitiesModule.GetDictKeys = function(Dict) 
+{
+    // Functions
+    // INIT
+    return Object.keys(Dict);
+}
+
 UtilitiesModule.GetRandomInt = function(Min, Max) 
 {
     // Functions

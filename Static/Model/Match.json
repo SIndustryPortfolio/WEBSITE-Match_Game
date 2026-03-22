@@ -2,10 +2,56 @@
     "Items": 
     [
         {
-            "Name": "Bird"
+            "Name": "Bird",
+            "Visual" : "🐦"
         },
         {
-            "Name": "Dog"
+            "Name": "Dog",
+            "Visual": "🐶"
+        },
+        {
+            "Name": "Cat",
+            "Visual": "🐱"
+        },
+        {
+            "Name": "Snail",
+            "Visual": "🐌"
+        },
+        {
+            "Name": "Turtle",
+            "Visual": "🐢"
+        },
+        {
+            "Name": "Fox",
+            "Visual": "🦊"
+        },
+        {
+            "Name": "Wolf",
+            "Visual": "🐺"
+        },
+        {
+            "Name": "Raccoon",
+            "Visual": "🦝"
+        },
+        {
+            "Name": "Squid",
+            "Visual": "🦑"
+        },
+        {
+            "Name": "Kangaroo",
+            "Visual": "🦘"
+        },
+        {
+            "Name": "Llama",
+            "Visual": "🦙"
+        },
+        {
+            "Name": "Pig",
+            "Visual": "🐷"
+        },
+        {
+            "Name": "Chick",
+            "Visual": "🐥"
         }
     ]
 }

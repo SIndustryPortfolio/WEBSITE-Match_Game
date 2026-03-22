@@ -30,22 +30,33 @@ class Game
     async SetupTiles() 
     {
         // CORE
-        let TotalTiles = this.DifficultyMeta["GridSize"];
-        let TilesInDirection = Math.sqrt(TotalTiles);
+        const TotalTiles = this.DifficultyMeta["GridSize"];
+        const TilesInDirection = Math.sqrt(TotalTiles);
+        
+        const AllItemMeta = window.Match["Items"];
+        const AllItemNames = UtilitiesModule.GetDictKeys(AllItems);
 
         // Functions
         // INIT
         this.TileGridDiv.style.display = "grid";
         this.TileGridDiv.style.gridTemplateColumns = `repeat(${TilesInDirection}, 1fr)`;
         this.TileGridDiv.style.gap = "10px";
-        
+
         for (let i = 0; i < TotalTiles / 2; i++) 
         {
-            const ItemName = 0;
+            const RandomItemNumber = UtilitiesModule.GetRandomInt(0, AllItemNames.length);
+            const ItemName = AllItemNames[RandomItemNumber];
 
-            let TileWrapperDiv, TileInstance = await ComponentsModule.GetAndLoadComponent("Tile", {"Parent" : this.TileGridDiv});
+            for (x = 0; x < 2; x++) 
+            {
+                let TileWrapperDiv, TileInstance = await ComponentsModule.GetAndLoadComponent("Tile", 
+                {
+                    "Parent" : this.TileGridDiv,
+                    "Args": [ItemName]
+                });
 
-            this.TileCache[TileWrapperDiv] = {"Instance" : TileInstance};
+                this.TileCache[TileWrapperDiv] = {"Instance" : TileInstance};
+            }
         }
     }
 

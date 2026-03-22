@@ -10,12 +10,12 @@ const ModelPath = "Static/Model/";
 
 // Functions
 // MECHANICS
-function LoadedCallback() 
+async function LoadedCallback() 
 {
     // Functions
     // INIT
     DebugModule.Print("Loaded!");
-    PageModule.Initialise();
+    await PageModule.Initialise();
     
     if (PageModule.Heartbeat !== undefined) 
     {

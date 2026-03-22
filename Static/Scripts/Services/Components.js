@@ -37,8 +37,8 @@ async function GetComponentModule(ComponentName)
         DebugModule.Print("GetComponentModule | Error: " + Error);
     }
 
-    console.log("Component Module!");
-    console.log(ComponentModule);
+    /*DebugModule.Print("Component Module!");
+    DebugModule.Print(ComponentModule);*/
 
     return ComponentModule;
 }
@@ -93,7 +93,7 @@ async function LoadComponent(ComponentWrapperDiv, Options)
 
     if (ComponentModule !== undefined) 
     {
-        console.log(ComponentModule);
+        DebugModule.Print(ComponentModule);
         Instance = new ComponentModule(ComponentWrapperDiv);
 
         Cache["Instance"] = Instance;
@@ -112,7 +112,7 @@ async function GetAndLoadComponent(ComponentName, Options)
     // Functions
     // INIT
     let ComponentWrapperDiv = await GetComponent(ComponentName);
-    let Instance = LoadComponent(ComponentWrapperDiv, Options);
+    let Instance = await LoadComponent(ComponentWrapperDiv, Options);
 
     return ComponentWrapperDiv, Instance;
 }
@@ -122,7 +122,6 @@ ComponentsModule.GetComponent = GetComponent;
 ComponentsModule.LoadComponent = LoadComponent;
 
 ComponentsModule.GetAndLoadComponent = GetAndLoadComponent;
-
 ComponentsModule.GetComponentModule = GetComponentModule;
 
 export default ComponentsModule;
