@@ -1,0 +1,17 @@
+{
+    "Easy" : 
+    {
+        "Lives" : 10,
+        "GridSize" : 16
+    },
+    "Medium": 
+    {
+        "Lives" : 5,
+        "GridSize" : 24
+    },
+    "Hard" : 
+    {
+        "Lives" : 3,
+        "GridSize" : 32
+    }
+}

@@ -6,6 +6,7 @@ import DebugModule from "./Services/Debug.js";
 import RenderPipelineModule from "./Services/RenderPipeline.js";
 
 // CORE
+const ModelPath = "Static/Model/";
 
 // Functions
 // MECHANICS
@@ -30,6 +31,19 @@ function UnloadCallback()
     return PageModule.End();
 }
 
+async function HandleGlobals() 
+{
+    // Functions
+    // INIT
+    const CoreJSON = await fetch(ModelPath + "Core.json").then(response => function() {return response.json();});
+    const MatchJSON = await fetch(ModelPath + "Match.json").then(response => function() {return response.json();});
+    const DifficultyJSON = await fetch(ModelPath + "Difficulty.json").then(response => function() {return response.json()});
+
+    window.Core = CoreJSON;
+    window.Match = MatchJSON;
+    window.Difficulty = DifficultyJSON;
+}
+
 function HandlePage() 
 {
     // Functions
@@ -46,11 +60,13 @@ function HandlePage()
     window.addEventListener("beforeunload", UnloadCallback);
 }   
 
-function Initialise() 
+async function Initialise() 
 {
     // Functions
     // INIT
     DebugModule.Print("Handling Core Logic!");
+
+    await HandleGlobals();
     RenderPipelineModule.Initialise();
     HandlePage();
 }

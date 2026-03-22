@@ -2,6 +2,13 @@ let UtilitiesModule = {};
 
 // Functions
 // MECHANICS
+UtilitiesModule.GetRandomInt = function(Min, Max) 
+{
+    // Functions
+    // INIT
+    return Math.floor(Math.random() * (Max - Min + 1)) + Min;
+}
+
 UtilitiesModule.Destroy = function(Element) 
 {
     // Functions
