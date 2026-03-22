@@ -1,0 +1,71 @@
+#TileGrid
+{
+    width: 40%;
+    display: grid;
+    /*align-self: center;
+    justify-self: center;*/
+    overflow: hidden;
+}
+
+.Tile 
+{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+
+    aspect-ratio: 1;
+    border: solid 5px; 
+    border-color: black;
+    border-radius: 12px; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+    background-color: rgba(64, 64, 64, 1);
+    width: 100%; 
+    height: 100%;
+
+    transition: scale .3s ease;
+}
+
+#TileOverlay 
+{
+    position: absolute; 
+    background-color: rgba(32, 32, 32, 1);
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%; 
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    cursor: grab;
+}
+
+#TileOverlay h1 
+{
+    padding: 0;
+    margin: 0;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    color: white;
+}
+
+
+#TileVisual 
+{
+    position: absolute; 
+    z-index: 1;
+}
+
+.Tile:hover 
+{
+    scale: calc(105%);
+}
+
+#TileOverlay:hover h1 
+{
+    transform: rotate(15deg);
+}

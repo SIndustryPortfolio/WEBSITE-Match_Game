@@ -61,7 +61,7 @@ function Initialise()
         // INIT
         //DebugModule.Print("Render Loop | DT: " + DeltaTime + " | AT: " + AccumulatedTime);
 
-        for (MetaKey in RenderCache) 
+        for (let MetaKey in RenderCache) 
         {
             const CallableMeta = RenderCache[MetaKey];
             const _StartTime = CallableMeta["Time"];

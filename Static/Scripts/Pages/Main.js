@@ -14,9 +14,12 @@ async function LoadedCallback()
     // Functions
     // INIT
     
-
-    let BodyContentDiv = PageComponents["Topbar"].querySelector("#BodyContent");
-    PageComponents["Game"] = await ComponentsModule.GetAndLoadComponent("Game", {"Parent" : BodyContentDiv});
+    let BodyContentDiv = PageComponents["Topbar"].Element.querySelector("#BodyContent");
+    PageComponents["Game"] = await ComponentsModule.GetAndLoadComponent("Game", 
+    {
+        "Parent" : BodyContentDiv,
+        "Args": ["Easy"]
+    });
 }
 
 
@@ -24,11 +27,7 @@ async function Initialise()
 {
     // Functions
     // INIT
-    let response = await ComponentsModule.GetAndLoadComponent("Topbar", {"Parent" : document.body});
-
-    console.log("AWAIT RESPONSE");
-    console.log(response);
-
+    PageComponents["Topbar"] = await ComponentsModule.GetAndLoadComponent("Topbar", {"Parent" : document.body});
     //PageComponents["Topbar"] = await ComponentsModule.GetAndLoadComponent("Topbar", {"Parent" : document.body});
     PageComponents["Footer"] = await ComponentsModule.GetAndLoadComponent("Footer", {"Parent" : document.body});
 

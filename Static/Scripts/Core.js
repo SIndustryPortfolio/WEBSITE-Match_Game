@@ -35,26 +35,32 @@ async function HandleGlobals()
 {
     // Functions
     // INIT
-    const CoreJSON = await fetch(ModelPath + "Core.json").then(response => function() {return response.json();});
-    const MatchJSON = await fetch(ModelPath + "Match.json").then(response => function() {return response.json();});
-    const DifficultyJSON = await fetch(ModelPath + "Difficulty.json").then(response => function() {return response.json()});
+    DebugModule.Print("Loading Globals!");
 
+    const CoreJSON = await fetch(ModelPath + "Core.json").then(response => response.json());
+    const MatchJSON = await fetch(ModelPath + "Match.json").then(response =>  response.json());
+    const DifficultyJSON = await fetch(ModelPath + "Difficulty.json").then(response => response.json());
+    
     window.Core = CoreJSON;
     window.Match = MatchJSON;
     window.Difficulty = DifficultyJSON;
+
+    console.log(window.Difficulty);
 }
 
 function HandlePage() 
 {
     // Functions
     // INIT
-    if (document.readyState === "complete") 
+    DebugModule.Print("Handling Page!");
+
+    if (document.readyState == "loading") 
     {
-        LoadedCallback();
+        document.addEventListener("DOMContentLoaded", LoadedCallback);
     }
     else 
     {
-        document.addEventListener("DOMContentLoaded", LoadedCallback);
+        LoadedCallback();
     }
 
     window.addEventListener("beforeunload", UnloadCallback);

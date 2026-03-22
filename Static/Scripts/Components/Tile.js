@@ -7,8 +7,9 @@ class Tile
         // Functions
         // INIT
         this.Element = ComponentWrapperDiv;
-        //this.TileImage = ComponentWrapperDiv.querySelector("TileImage");
-        this.TileNameParagraph = ComponentWrapperDiv.querySelector("TileName");
+        //this.TileImage = ComponentWrapperDiv.querySelector("#TileImage");
+        this.TileVisual = ComponentWrapperDiv.querySelector("#TileVisual");
+        this.TileOverlayDiv = ComponentWrapperDiv.querySelector("#TileOverlay");
 
     }
 
@@ -20,7 +21,9 @@ class Tile
         // Functions
         // INIT
         this.ItemName = ItemName;
-        this.TileNameParagraph.innerHTML = ItemMeta["Visual"];
+        this.TileVisual.innerHTML = ItemMeta["Visual"];
+        this.Element.classList.add("Tile");
+        this.TileOverlayDiv.style.visibility = "visible";
     }
 
     End() 

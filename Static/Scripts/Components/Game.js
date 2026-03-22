@@ -1,6 +1,7 @@
 // Modules
 import CoreModule from "../Core.js";
 import ComponentsModule from "../Services/Components.js";
+import DebugModule from "../Services/Debug.js";
 import RenderPipelineModule from "../Services/RenderPipeline.js";
 import UtilitiesModule from "../Services/Utilities.js";
 
@@ -30,24 +31,28 @@ class Game
     async SetupTiles() 
     {
         // CORE
+
+        DebugModule.Print("Difficulty: " + this.Difficulty);
+        DebugModule.Print("Difficulty Meta");
+        DebugModule.Print(this.DifficultyMeta);
+
         const TotalTiles = this.DifficultyMeta["GridSize"];
         const TilesInDirection = Math.sqrt(TotalTiles);
         
         const AllItemMeta = window.Match["Items"];
-        const AllItemNames = UtilitiesModule.GetDictKeys(AllItems);
+        const AllItemNames = UtilitiesModule.GetDictKeys(AllItemMeta);
 
         // Functions
         // INIT
-        this.TileGridDiv.style.display = "grid";
         this.TileGridDiv.style.gridTemplateColumns = `repeat(${TilesInDirection}, 1fr)`;
         this.TileGridDiv.style.gap = "10px";
 
         for (let i = 0; i < TotalTiles / 2; i++) 
         {
-            const RandomItemNumber = UtilitiesModule.GetRandomInt(0, AllItemNames.length);
+            const RandomItemNumber = UtilitiesModule.GetRandomInt(0, AllItemNames.length - 1);
             const ItemName = AllItemNames[RandomItemNumber];
 
-            for (x = 0; x < 2; x++) 
+            for (let x = 0; x < 2; x++) 
             {
                 let TileWrapperDiv, TileInstance = await ComponentsModule.GetAndLoadComponent("Tile", 
                 {

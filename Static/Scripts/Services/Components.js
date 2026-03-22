@@ -12,6 +12,20 @@ let ComponentCache = {};
 
 // Functions
 // MECHANICS
+function GetComponentCache(ComponentWrapperDiv) 
+{
+    // Functions
+    // INIT
+    if (ComponentWrapperDiv != undefined) 
+    {
+        return ComponentCache[ComponentWrapperDiv];
+    }
+    else 
+    {
+        return ComponentCache;
+    }
+}
+
 async function GetComponentModule(ComponentName) 
 {
     // Functions
@@ -45,29 +59,35 @@ async function GetComponentModule(ComponentName)
 
 async function GetComponent(HTMLComponentName) 
 {
+    // CORE
+    let ComponentRawHTML;
+
     // Functions
     // INIT
     let ComponentWrapperDiv = document.createElement("div");
     ComponentWrapperDiv.id = "Component-" + HTMLComponentName;
     ComponentWrapperDiv.name = HTMLComponentName;
-
-    let Component;
+    ComponentWrapperDiv.style.position = "relative";
 
     try 
     {
-        Component = await fetch(HTMLComponentsPath + HTMLComponentName + ".html").then(response => {return response.text();});
+        ComponentRawHTML = await fetch(HTMLComponentsPath + HTMLComponentName + ".html").then(response =>  response.text());
     }
     catch(Error) 
     {
+        ComponentRawHTML = undefined;
         return DebugModule.Print("GetComponent | Error: " + Error);
     }
 
-    ComponentWrapperDiv.innerHTML = Component;
+    ComponentWrapperDiv.innerHTML = ComponentRawHTML;
 
-    ComponentCache[ComponentWrapperDiv] = 
+    if (ComponentWrapperDiv !== undefined) 
     {
-        "Module": undefined     
-    };
+        ComponentCache[ComponentWrapperDiv] = 
+        {
+            "Module": undefined     
+        };   
+    }
 
     return ComponentWrapperDiv;
 }
@@ -93,7 +113,6 @@ async function LoadComponent(ComponentWrapperDiv, Options)
 
     if (ComponentModule !== undefined) 
     {
-        DebugModule.Print(ComponentModule);
         Instance = new ComponentModule(ComponentWrapperDiv);
 
         Cache["Instance"] = Instance;
@@ -123,5 +142,7 @@ ComponentsModule.LoadComponent = LoadComponent;
 
 ComponentsModule.GetAndLoadComponent = GetAndLoadComponent;
 ComponentsModule.GetComponentModule = GetComponentModule;
+
+ComponentsModule.GetComponentCache = GetComponentCache;
 
 export default ComponentsModule;
