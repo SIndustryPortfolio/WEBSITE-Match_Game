@@ -1,13 +1,16 @@
 let PageModule = {};
 
+// Modules
+import ComponentsModule from "../Services/Components.js";
 
 // Functions
 // MECHANICS
-function Initialise() 
+async function Initialise() 
 {
     // Functions
     // INIT
-
+    ComponentsModule.GetAndLoadComponent("Topbar", {"Parent" : document.body});
+    ComponentsModule.GetAndLoadComponent("Footer", {"Parent" : document.body});
 }
 
 function End() 

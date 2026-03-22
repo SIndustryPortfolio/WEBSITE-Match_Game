@@ -18,20 +18,27 @@ async function GetComponentModule(ComponentName)
     // INIT
     let ComponentModule = ModuleCache[ComponentName];
     
-    if (ComponentModule != undefined) 
+    if (ComponentModule !== undefined) 
     {
         return ComponentModule;
     }
 
     try 
     {
-        ComponentModule = await import(ScriptsComponentsPath + ComponentName + ".js");
-        ModuleCache[ComponentName] = ComponentModule;
+        let RawImport = await import(ScriptsComponentsPath + ComponentName + ".js");
+        const Module = RawImport.default;
+
+        ComponentModule = Module;
+        ModuleCache[ComponentName] = Module;
     }
     catch(Error) 
     {
+        ComponentModule = undefined;
         DebugModule.Print("GetComponentModule | Error: " + Error);
     }
+
+    console.log("Component Module!");
+    console.log(ComponentModule);
 
     return ComponentModule;
 }
@@ -42,13 +49,13 @@ async function GetComponent(HTMLComponentName)
     // INIT
     let ComponentWrapperDiv = document.createElement("div");
     ComponentWrapperDiv.id = "Component-" + HTMLComponentName;
-    ComponentWrapperDiv.tagName = HTMLComponentName;
+    ComponentWrapperDiv.name = HTMLComponentName;
 
     let Component;
 
     try 
     {
-        Component = fetch(HTMLComponentsPath + HTMLComponentName + ".html").then(response => {return response.text;});
+        Component = await fetch(HTMLComponentsPath + HTMLComponentName + ".html").then(response => {return response.text();});
     }
     catch(Error) 
     {
@@ -68,8 +75,8 @@ async function GetComponent(HTMLComponentName)
 async function LoadComponent(ComponentWrapperDiv, Options) 
 {
     // CORE
-    const ComponentName = ComponentWrapperDiv.tagName;
-    const ComponentModule = GetComponentModule(ComponentName);
+    const ComponentName = ComponentWrapperDiv.name;
+    const ComponentModule = await GetComponentModule(ComponentName);
 
     let Cache = ComponentCache[ComponentWrapperDiv];
     let Instance;
@@ -84,8 +91,9 @@ async function LoadComponent(ComponentWrapperDiv, Options)
         Options["Parent"].appendChild(ComponentWrapperDiv);
     }
 
-    if (ComponentModule) 
+    if (ComponentModule !== undefined) 
     {
+        console.log(ComponentModule);
         Instance = new ComponentModule(ComponentWrapperDiv);
 
         Cache["Instance"] = Instance;
@@ -99,9 +107,22 @@ async function LoadComponent(ComponentWrapperDiv, Options)
     return Instance;
 }
 
+async function GetAndLoadComponent(ComponentName, Options) 
+{
+    // Functions
+    // INIT
+    let ComponentWrapperDiv = await GetComponent(ComponentName);
+    let Instance = LoadComponent(ComponentWrapperDiv, Options);
+
+    return ComponentWrapperDiv, Instance;
+}
+
 // DIRECT
 ComponentsModule.GetComponent = GetComponent;
 ComponentsModule.LoadComponent = LoadComponent;
+
+ComponentsModule.GetAndLoadComponent = GetAndLoadComponent;
+
 ComponentsModule.GetComponentModule = GetComponentModule;
 
 export default ComponentsModule;
