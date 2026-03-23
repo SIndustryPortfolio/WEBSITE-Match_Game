@@ -5,7 +5,7 @@ import DebugModule from "./Debug.js";
 import UtilitiesModule from "./Utilities.js";
 
 // CORE
-let RenderCache = {};
+let RenderCache = new Map();
 
 // Functions
 // MECHANICS
@@ -18,19 +18,19 @@ function Bind(Key, Callback, Options)
 
     // Functions
     // INIT
-    RenderCache[Key] = {
+    RenderCache.set(Key, {
         "Time" : TimeNow,
         "Callback" : Callback,
         "Args": Options["Args"],
         "DisconnectCallback" : Options["DisconnectCallback"]
-    };
+    });
 }
 
 function Unbind(Key) 
 {
     // Functions
     // INIT
-    delete RenderCache[Key];
+    RenderCache.delete(Key);
 }
 
 function Initialise() 
@@ -61,9 +61,12 @@ function Initialise()
         // INIT
         //DebugModule.Print("Render Loop | DT: " + DeltaTime + " | AT: " + AccumulatedTime);
 
-        for (let MetaKey in RenderCache) 
+        //console.log(RenderCache);
+
+        for (const [MetaKey, CallableMeta] of RenderCache) 
         {
-            const CallableMeta = RenderCache[MetaKey];
+            //const CallableMeta = RenderCache[MetaKey];
+            
             const _StartTime = CallableMeta["Time"];
             const _AccumulatedTime = TimeNow - _StartTime;
 

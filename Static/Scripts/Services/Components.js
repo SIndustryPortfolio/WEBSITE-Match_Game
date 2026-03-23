@@ -8,7 +8,7 @@ const HTMLComponentsPath = "Static/Templates/Components/";
 const ScriptsComponentsPath = "../Components/";
 
 let ModuleCache = {};
-let ComponentCache = {};
+let ComponentCache = new Map();
 
 // Functions
 // MECHANICS
@@ -18,7 +18,7 @@ function GetComponentCache(ComponentWrapperDiv)
     // INIT
     if (ComponentWrapperDiv != undefined) 
     {
-        return ComponentCache[ComponentWrapperDiv];
+        return ComponentCache.get(ComponentWrapperDiv);
     }
     else 
     {
@@ -81,13 +81,11 @@ async function GetComponent(HTMLComponentName)
 
     ComponentWrapperDiv.innerHTML = ComponentRawHTML;
 
-    if (ComponentWrapperDiv !== undefined) 
+    ComponentCache.set(ComponentWrapperDiv, 
     {
-        ComponentCache[ComponentWrapperDiv] = 
-        {
-            "Module": undefined     
-        };   
-    }
+        "Module": undefined     
+    });   
+    
 
     return ComponentWrapperDiv;
 }
@@ -98,7 +96,7 @@ async function LoadComponent(ComponentWrapperDiv, Options)
     const ComponentName = ComponentWrapperDiv.name;
     const ComponentModule = await GetComponentModule(ComponentName);
 
-    let Cache = ComponentCache[ComponentWrapperDiv];
+    let Cache = ComponentCache.get(ComponentWrapperDiv);
     let Instance;
 
     Options = Options || {};
@@ -106,7 +104,7 @@ async function LoadComponent(ComponentWrapperDiv, Options)
 
     // Functions
     // INIT
-    if (Options["Parent"]) 
+    if (Options["Parent"] !== undefined) 
     {
         Options["Parent"].appendChild(ComponentWrapperDiv);
     }
@@ -133,7 +131,7 @@ async function GetAndLoadComponent(ComponentName, Options)
     let ComponentWrapperDiv = await GetComponent(ComponentName);
     let Instance = await LoadComponent(ComponentWrapperDiv, Options);
 
-    return ComponentWrapperDiv, Instance;
+    return [ComponentWrapperDiv, Instance];
 }
 
 // DIRECT

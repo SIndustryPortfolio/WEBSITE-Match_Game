@@ -14,12 +14,15 @@ async function LoadedCallback()
     // Functions
     // INIT
     
-    let BodyContentDiv = PageComponents["Topbar"].Element.querySelector("#BodyContent");
-    PageComponents["Game"] = await ComponentsModule.GetAndLoadComponent("Game", 
+    let BodyContentDiv = PageComponents["Topbar"].querySelector("#BodyContent");
+
+    let [GameComponentWrapperDiv, GameInstance] = await ComponentsModule.GetAndLoadComponent("Game", 
     {
         "Parent" : BodyContentDiv,
         "Args": ["Easy"]
     });
+
+    PageComponents["Game"] = GameComponentWrapperDiv;
 }
 
 
@@ -27,9 +30,11 @@ async function Initialise()
 {
     // Functions
     // INIT
-    PageComponents["Topbar"] = await ComponentsModule.GetAndLoadComponent("Topbar", {"Parent" : document.body});
-    //PageComponents["Topbar"] = await ComponentsModule.GetAndLoadComponent("Topbar", {"Parent" : document.body});
-    PageComponents["Footer"] = await ComponentsModule.GetAndLoadComponent("Footer", {"Parent" : document.body});
+    let [TopbarComponentWrapperDiv, TopbarInstance] = await ComponentsModule.GetAndLoadComponent("Topbar", {"Parent" : document.body});
+    let [FooterComponentWrapperDiv, FooterInstance] = await ComponentsModule.GetAndLoadComponent("Footer", {"Parent" : document.body});
+
+    PageComponents["Topbar"] = TopbarComponentWrapperDiv;
+    PageComponents["Footer"] = FooterComponentWrapperDiv;
 
     DebugModule.Print("PageComponents!");
     DebugModule.Print(PageComponents);

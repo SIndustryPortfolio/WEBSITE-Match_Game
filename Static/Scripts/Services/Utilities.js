@@ -2,6 +2,33 @@ let UtilitiesModule = {};
 
 // Functions
 // MECHANICS
+UtilitiesModule.ScaleText = function(Text, Scale) 
+{
+    // Functions
+    // INIT
+    const ParentNode = Text.parentNode;
+
+    const OverlayWidth = ParentNode.offsetWidth;
+    const OverlayHeight = ParentNode.offsetHeight;
+
+    const AverageSize = Math.floor((OverlayWidth + OverlayHeight) / 2);
+    const ScaledFontSize = Math.floor(AverageSize * Scale);
+
+    Text.style.fontSize = `${ScaledFontSize}px`;
+}
+
+UtilitiesModule.ShuffleArray = function(Array) 
+{
+    // Functions
+    // INIT
+    for (let i = Array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [Array[i], Array[j]] = [Array[j], Array[i]];
+    }
+
+    return Array;
+}
+
 UtilitiesModule.GetDictKeys = function(Dict) 
 {
     // Functions
