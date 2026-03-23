@@ -28,7 +28,49 @@ class Game
 
         this.TileCache = new Map();
 
+        this.TopRowValues = {
+            "Time": 0,
+            "TotalClicks": 0,
+            "Matches": 0
+        }
+
         //this.TargetRenderOperation;
+    }
+
+    async HandleTopRow() 
+    {
+        // Functions
+        // INIT
+        let [TimeCardComponentWrapperDiv, TimeCardInstance] = await ComponentsModule.GetAndLoadComponent("TopRowCard", {
+            "Parent" : this.TopRowDiv,
+            "Args": [this, "Time"]
+        });
+
+        let [TotalClicksComponentWrapperDiv, TotalClicksInstance] = await ComponentsModule.GetAndLoadComponent("TopRowCard", {
+            "Parent" : this.TopRowDiv,
+            "Args": [this, "Total Clicks"]
+        });
+
+        let [MatchesComponentWrapperDiv, MatchesInstance] = await ComponentsModule.GetAndLoadComponent("TopRowCard", {
+            "Parent" : this.TopRowDiv,
+            "Args": [this, "Matches"]
+        });
+    }
+
+    RenderTimer() 
+    {
+        // Functions
+        // MECHANICS
+        function Render(DeltaTime, AccumulatedTime) 
+        {
+            // Functions
+            // INIT
+            this.TopRowValues["Time"] = AccumulatedTime;
+        }
+
+        // INIT
+        this.StartTime = UtilitiesModule.GetTimeNow();
+        RenderPipelineModule.Bind("GameTimer", Render.bind(this));
     }
 
     RenderGridOverlay(DeltaTime, AccumulatedTime) 
@@ -143,6 +185,7 @@ class Game
 
         await this.CountdownBlur();
         await this.TileSneakPeak();
+        this.RenderTimer();
     }
 
 
@@ -205,9 +248,9 @@ class Game
         this.Difficulty = Difficulty;
         this.DifficultyMeta = window.Difficulty[Difficulty];
 
+        await this.HandleTopRow();
         await this.SetupTiles();
 
-        this.StartTime = UtilitiesModule.GetTimeNow();
         RenderPipelineModule.Bind("GridOverlay", this.RenderGridOverlay.bind(this));
         await this.GameStart();
     }

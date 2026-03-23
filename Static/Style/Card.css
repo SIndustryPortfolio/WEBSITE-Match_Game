@@ -1,0 +1,14 @@
+#Component-TopRowCard 
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+
+    background: rgba(32, 32, 32, 0.5);
+    border: solid 5px goldenrod;
+    border-radius: 12px;
+    overflow: hidden;
+    box-sizing: border-box;
+    text-align: center;
+}

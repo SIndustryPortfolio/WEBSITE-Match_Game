@@ -49,6 +49,7 @@ class Tile
         // INIT
         this.ItemName = ItemName;
         this.TileVisual.innerHTML = ItemMeta["Visual"];
+        
         this.Element.classList.add("Tile");
         this.TileOverlayDiv.style.visibility = "visible";
 
