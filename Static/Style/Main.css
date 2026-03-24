@@ -20,6 +20,7 @@ body
 button 
 {
     border: solid 3px grey;
+    color: white;
     border-radius: 12px;
     box-sizing: border-box;
     background-color: rgba(32, 32, 32, 1);

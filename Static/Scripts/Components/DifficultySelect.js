@@ -42,7 +42,7 @@ class DifficultySelect
 
 
             DifficultyButtonInstance.Button.style.borderColor = DifficultyCSSColour;
-            DifficultyButtonInstance.Button.style.color = DifficultyCSSColour;
+            //DifficultyButtonInstance.Button.style.color = DifficultyCSSColour;
 
             DifficultyButtonInstance.Clicked = function() 
             {
