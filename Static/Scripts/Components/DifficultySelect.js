@@ -11,6 +11,7 @@ class DifficultySelect
         // Functions
         // INIT
         this.Element = ComponentWrapperDiv;
+        this.ButtonsHolderDiv = ComponentWrapperDiv.querySelector("#ButtonsHolder");
     }
 
     async SetupDifficultyButtons() 
@@ -35,7 +36,7 @@ class DifficultySelect
 
             let [DifficultyButtonComponentWrapperDiv, DifficultyButtonInstance] = await ComponentsModule.GetAndLoadComponent("Button", 
             {
-                "Parent" : this.Element,
+                "Parent" : this.ButtonsHolderDiv,
                 "Args": [Difficulty]
             });
 
