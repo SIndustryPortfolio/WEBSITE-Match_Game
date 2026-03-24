@@ -7,11 +7,11 @@
     "Medium": 
     {
         "Lives" : 5,
-        "GridSize" : 24
+        "GridSize" : 25
     },
     "Hard" : 
     {
         "Lives" : 3,
-        "GridSize" : 32
+        "GridSize" : 36
     }
 }
