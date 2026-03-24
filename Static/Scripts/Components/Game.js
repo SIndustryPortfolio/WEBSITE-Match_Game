@@ -19,7 +19,6 @@ class Game
         
         this.GridOverlayDiv = ComponentWrapperDiv.querySelector("#GridOverlay");
         this.GridOverlayText = ComponentWrapperDiv.querySelector("#GridOverlayText");
-        this.GridOverlayButtonsDiv = ComponentWrapperDiv.querySelector("#GridOverlayButtons");
 
         this.TileGridDiv = ComponentWrapperDiv.querySelector("#TileGrid");
         this.BottomRowDiv = ComponentWrapperDiv.querySelector("#BottomRow");
@@ -289,45 +288,6 @@ class Game
         TileWrapperDiv.onclick = Clicked.bind(this);
     }
 
-    async SetupDifficultyButtons() 
-    {
-        // CORE
-        let ResolvePromise;
-        const EventPromise = new Promise(resolve => {ResolvePromise = resolve;});
-
-        const AllDifficultyMeta = window.Difficulty;
-
-        // Functions
-        // INIT
-        console.log("GridOverlayButtonsDiv");
-        console.log(this.GridOverlayButtonsDiv);
-
-        for (const Difficulty in AllDifficultyMeta) 
-        {
-            const DifficultyMeta = AllDifficultyMeta[Difficulty];
-            const DifficultyCSSColour = UtilitiesModule.ArrayToCSSColour(DifficultyMeta["Colour"]);
-
-            DebugModule.Print("Setting up Difficulty Button: " + Difficulty);
-
-            let [DifficultyButtonComponentWrapperDiv, DifficultyButtonInstance] = await ComponentsModule.GetAndLoadComponent("Button", 
-            {
-                "Parent" : this.GridOverlayButtonsDiv,
-                "Args": [Difficulty]
-            });
-
-
-            DifficultyButtonInstance.Button.style.borderColor = DifficultyCSSColour;
-            DifficultyButtonInstance.Button.style.color = DifficultyCSSColour;
-
-            DifficultyButtonInstance.Clicked = function() 
-            {
-                return ResolvePromise(Difficulty);
-            }
-        }
-
-        return EventPromise;
-    }
-
     async SetupTiles() 
     {
         // CORE
@@ -399,13 +359,19 @@ class Game
 
         // Functions
         // INIT
+        UtilitiesModule.Hide(this.Element);
 
-        UtilitiesModule.Hide(this.GridOverlayText);
+        //const Difficulty = await this.SetupDifficultyButtons();
 
-        const Difficulty = await this.SetupDifficultyButtons();
+        let [DifficultySelectComponentWrapperDiv, DifficultySelectInstance] = await ComponentsModule.GetAndLoadComponent("DifficultySelect", 
+        {
+            "Parent" : document.getElementById("BodyContent"),
+            "Args": []
+        });
 
-        UtilitiesModule.Hide(this.GridOverlayButtonsDiv);
-        UtilitiesModule.DestroyChildren(this.GridOverlayButtonsDiv);
+        const Difficulty = await DifficultySelectInstance.SetupDifficultyButtons();
+
+        await ComponentsModule.RemoveComponent(DifficultySelectComponentWrapperDiv);
 
         this.Difficulty = Difficulty;
         this.DifficultyMeta = window.Difficulty[Difficulty];
@@ -415,6 +381,7 @@ class Game
 
         RenderPipelineModule.Bind("GridOverlay", this.RenderGridOverlay.bind(this));
         
+        UtilitiesModule.Show(this.Element);
         await this.GameStart();
     }
 

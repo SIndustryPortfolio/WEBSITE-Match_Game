@@ -2,6 +2,7 @@ let ComponentsModule = {};
 
 // Modules
 import DebugModule from "./Debug.js";
+import UtilitiesModule from "./Utilities.js";
 
 // CORE
 const HTMLComponentsPath = "Static/Templates/Components/";
@@ -55,6 +56,24 @@ async function GetComponentModule(ComponentName)
     DebugModule.Print(ComponentModule);*/
 
     return ComponentModule;
+}
+
+async function RemoveComponent(ComponentWrapperDiv) 
+{
+    // CORE
+    const Cache = ComponentCache.get(ComponentWrapperDiv);
+    
+    // Functions
+    // INIT
+    if (Cache["Instance"] != undefined) 
+    {
+        Cache["Instance"].End();
+    }
+
+    ComponentCache.delete(ComponentWrapperDiv);
+    UtilitiesModule.Destroy(ComponentWrapperDiv);
+
+    Cache, ComponentWrapperDiv = undefined;
 }
 
 async function GetComponent(HTMLComponentName) 
@@ -139,6 +158,8 @@ async function GetAndLoadComponent(ComponentName, Options)
 // DIRECT
 ComponentsModule.GetComponent = GetComponent;
 ComponentsModule.LoadComponent = LoadComponent;
+
+ComponentsModule.RemoveComponent = RemoveComponent;
 
 ComponentsModule.GetAndLoadComponent = GetAndLoadComponent;
 ComponentsModule.GetComponentModule = GetComponentModule;

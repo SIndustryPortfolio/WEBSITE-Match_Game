@@ -19,7 +19,7 @@ body
 
 button 
 {
-    border: solid 5px grey;
+    border: solid 3px grey;
     border-radius: 12px;
     box-sizing: border-box;
     background-color: rgba(32, 32, 32, 1);
