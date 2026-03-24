@@ -62,7 +62,7 @@
     background-color: green !important;
 }
 
-.TileSuccess:hover 
+.TileSuccess:hover, .TileFailed:hover 
 {
     scale: calc(100%) !important;
 }
