@@ -4,6 +4,7 @@ import ComponentsModule from "../Services/Components.js";
 import DebugModule from "../Services/Debug.js";
 import RenderPipelineModule from "../Services/RenderPipeline.js";
 import UtilitiesModule from "../Services/Utilities.js";
+import Tile from "./Tile.js";
 
 // CORE
 
@@ -16,23 +17,11 @@ class Game
 
         this.TopRowDiv = ComponentWrapperDiv.querySelector("#TopRow");
         
-        
         this.GridHolderDiv = ComponentWrapperDiv.querySelector("#GridHolder");
         this.GridOverlayDiv = ComponentWrapperDiv.querySelector("#GridOverlay");
         this.GridOverlayText = ComponentWrapperDiv.querySelector("#GridOverlayText");
-
         this.TileGridDiv = ComponentWrapperDiv.querySelector("#TileGrid");
-
-
         this.BottomRowDiv = ComponentWrapperDiv.querySelector("#BottomRow");
-
-        this.TileCache = new Map();
-
-        this.TopRowValues = {
-            "Time": 0,
-            "TotalClicks": 0,
-            "Matches": 0
-        }
 
         //this.TargetRenderOperation;
     }
@@ -57,8 +46,15 @@ class Game
         });
     }
 
-    RenderTimer() 
+
+    async HandleMainLoop(DeltaTime, AccumulatedTime) 
     {
+        // CORE
+        let ResolvePromise;
+        const RenderPromise = new Promise(resolve => {
+            ResolvePromise = resolve;
+        });
+
         // Functions
         // MECHANICS
         function Render(DeltaTime, AccumulatedTime) 
@@ -66,11 +62,18 @@ class Game
             // Functions
             // INIT
             this.TopRowValues["Time"] = AccumulatedTime;
+
+            if (this.TopRowValues["Matches"] == (this.TileCache.size / 2)) 
+            {
+                return ResolvePromise();
+            }
         }
 
         // INIT
         this.StartTime = UtilitiesModule.GetTimeNow();
-        RenderPipelineModule.Bind("GameTimer", Render.bind(this));
+        RenderPipelineModule.Bind("MainLoop", Render.bind(this));
+
+        return RenderPromise;
     }
 
     RenderGridOverlay(DeltaTime, AccumulatedTime) 
@@ -177,15 +180,106 @@ class Game
         return RenderPromise;
     }
 
+    async GameEnd() 
+    {
+        // Functions
+        // INIT
+
+
+        this.End();
+    }
+
     async GameStart() 
     {
         // Functions
         // INIT
+        this.GameState = "Starting";
+
         this.ToggleAllTiles(false);
 
         await this.CountdownBlur();
         await this.TileSneakPeak();
-        this.RenderTimer();
+
+        this.GameState = "Running";
+        await this.HandleMainLoop();
+
+        await this.GameEnd();
+    }
+
+
+    async CheckIfMatchingPair() 
+    {
+        // CORE
+        const Pair = this.CurrentClickedPair;
+
+        const Tile1ComponentWrapperDiv = Pair[0];
+        const Tile1Instance = this.TileCache.get(Tile1ComponentWrapperDiv);
+
+        const Tile2ComponentWrapperDiv = Pair[1];
+        const Tile2Instance = this.TileCache.get(Tile2ComponentWrapperDiv);
+
+        // Functions
+        // INIT
+        if (Tile1Instance.ItemName == Tile2Instance.ItemName) 
+        {
+            this.TopRowValues["Matches"] += 1;
+
+            Tile1Instance.Disabled = true;
+            Tile2Instance.Disabled = true;
+
+            Tile1Instance.Success();
+            await Tile2Instance.Success();
+        }
+        else 
+        {
+            Tile1Instance.Failed();
+            await Tile2Instance.Failed();
+
+            Tile1Instance.Disabled = false;
+            Tile2Instance.Disabled = false;
+        }
+
+        this.CurrentClickedPair = [];
+
+    }
+
+    HandleTileTemplate(TileWrapperDiv, TileInstance) 
+    {
+        // Functions
+        // MECHANICS
+        async function Clicked() 
+        {
+            // Functions
+            // INIT
+            if (TileInstance.Disabled) 
+            {
+                return;
+            }
+
+            if (this.GameState != "Running") 
+            {
+                return;
+            }
+            
+            if (this.CurrentClickedPair.length == 2) 
+            {
+                return;
+            }
+
+            TileInstance.Disabled = true;
+
+            this.CurrentClickedPair.push(TileWrapperDiv);
+
+            TileInstance.Show();
+
+            if (this.CurrentClickedPair.length == 2) 
+            {
+                return await this.CheckIfMatchingPair();
+            }
+        }
+
+        // DIRECT
+        TileWrapperDiv.onclick = Clicked.bind(this);
     }
 
 
@@ -222,6 +316,8 @@ class Game
                     "Args": [ItemName]
                 });
 
+                this.HandleTileTemplate(TileWrapperDiv, TileInstance);
+
                 TilesOrder.push(TileWrapperDiv);
                 this.TileCache.set(TileWrapperDiv, TileInstance);
             }
@@ -243,6 +339,19 @@ class Game
 
     async Initialise(Difficulty) 
     {
+
+        // CORE
+        this.GameState = "Ended";
+        this.TileCache = new Map();
+
+        this.CurrentClickedPair = [];
+
+        this.TopRowValues = {
+            "Time": 0,
+            "TotalClicks": 0,
+            "Matches": 0
+        };
+
         // Functions
         // INIT
         this.Difficulty = Difficulty;
@@ -252,6 +361,7 @@ class Game
         await this.SetupTiles();
 
         RenderPipelineModule.Bind("GridOverlay", this.RenderGridOverlay.bind(this));
+        
         await this.GameStart();
     }
 
@@ -259,6 +369,7 @@ class Game
     {
         // Functions
         // INIT
+        RenderPipelineModule.Unbind("MainLoop");
         RenderPipelineModule.Unbind("GridOverlay");
 
     }

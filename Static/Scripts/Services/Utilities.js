@@ -1,7 +1,14 @@
 let UtilitiesModule = {};
 
 // Functions
-// MECHANICS
+// DIRECT
+UtilitiesModule.ClearArray = function(Array) 
+{
+    // Functions
+    // INIT
+    Arary.length = 0;
+}
+
 UtilitiesModule.ScaleText = function(Text, Scale) 
 {
     // Functions

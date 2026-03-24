@@ -43,6 +43,23 @@
     overflow: hidden;
 }
 
+.TileSuccess 
+{
+    border-color: greenyellow !important;
+    background-color: green !important;
+}
+
+.TileSuccess:hover 
+{
+    scale: calc(100%) !important;
+}
+
+.TileFailed 
+{
+    border-color: red !important;
+    background-color: brown !important;
+}
+
 .Tile 
 {
     padding: 0;

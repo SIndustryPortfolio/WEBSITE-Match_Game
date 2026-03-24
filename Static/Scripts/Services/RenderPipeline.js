@@ -6,6 +6,8 @@ import UtilitiesModule from "./Utilities.js";
 
 // CORE
 let RenderCache = new Map();
+const CoreRenderPrefix = "CoreRenderProcess-";
+let CoreRenderIndex = 0;
 
 // Functions
 // MECHANICS
@@ -18,12 +20,20 @@ function Bind(Key, Callback, Options)
 
     // Functions
     // INIT
+    if (Key == undefined) 
+    {
+        CoreRenderIndex += 1;
+        Key = CoreRenderPrefix + CoreRenderIndex;
+    }
+
     RenderCache.set(Key, {
         "Time" : TimeNow,
         "Callback" : Callback,
         "Args": Options["Args"],
         "DisconnectCallback" : Options["DisconnectCallback"]
     });
+
+    return Key;
 }
 
 function Unbind(Key) 
