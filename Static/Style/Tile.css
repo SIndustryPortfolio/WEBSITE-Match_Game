@@ -26,7 +26,7 @@
     height: 100%;
     background: rgba(16, 16, 16, 0.85);
     border-radius: 12px;
-    filter: blur(4px);
+    filter: blur(10px);
 }
 
 #GridOverlayText 
