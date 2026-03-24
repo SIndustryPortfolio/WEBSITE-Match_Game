@@ -1,10 +1,8 @@
 // Modules
-import CoreModule from "../Core.js";
 import ComponentsModule from "../Services/Components.js";
 import DebugModule from "../Services/Debug.js";
 import RenderPipelineModule from "../Services/RenderPipeline.js";
 import UtilitiesModule from "../Services/Utilities.js";
-import Tile from "./Tile.js";
 
 // CORE
 
@@ -18,8 +16,11 @@ class Game
         this.TopRowDiv = ComponentWrapperDiv.querySelector("#TopRow");
         
         this.GridHolderDiv = ComponentWrapperDiv.querySelector("#GridHolder");
+        
         this.GridOverlayDiv = ComponentWrapperDiv.querySelector("#GridOverlay");
         this.GridOverlayText = ComponentWrapperDiv.querySelector("#GridOverlayText");
+        this.GridOverlayButtonsDiv = ComponentWrapperDiv.querySelector("#GridOverlayButtons");
+
         this.TileGridDiv = ComponentWrapperDiv.querySelector("#TileGrid");
         this.BottomRowDiv = ComponentWrapperDiv.querySelector("#BottomRow");
 
@@ -37,7 +38,7 @@ class Game
 
         let [TotalClicksComponentWrapperDiv, TotalClicksInstance] = await ComponentsModule.GetAndLoadComponent("TopRowCard", {
             "Parent" : this.TopRowDiv,
-            "Args": [this, "Total Clicks"]
+            "Args": [this, "TotalClicks", "Total Clicks"]
         });
 
         let [MatchesComponentWrapperDiv, MatchesInstance] = await ComponentsModule.GetAndLoadComponent("TopRowCard", {
@@ -132,14 +133,16 @@ class Game
             {
                 RenderPipelineModule.Unbind("CountdownBlur");
 
-                this.GridOverlayDiv.style.visibility = "hidden";
+                UtilitiesModule.Hide(this.GridOverlayDiv);
+                UtilitiesModule.Hide(this.GridOverlayText);
 
                 return ResolvePromise();
             }
         }
 
         // INIT
-        this.GridOverlayDiv.style.visibility = "visible";
+        UtilitiesModule.Show(this.GridOverlayDiv);
+        UtilitiesModule.Show(this.GridOverlayText);
 
         RenderPipelineModule.Bind("CountdownBlur", Render.bind(this));
 
@@ -268,6 +271,10 @@ class Game
 
             TileInstance.Disabled = true;
 
+            this.TopRowValues["TotalClicks"] += 1;
+
+            DebugModule.Print("Total Clicks: " + this.TopRowValues["TotalClicks"]);
+
             this.CurrentClickedPair.push(TileWrapperDiv);
 
             TileInstance.Show();
@@ -282,6 +289,44 @@ class Game
         TileWrapperDiv.onclick = Clicked.bind(this);
     }
 
+    async SetupDifficultyButtons() 
+    {
+        // CORE
+        let ResolvePromise;
+        const EventPromise = new Promise(resolve => {ResolvePromise = resolve;});
+
+        const AllDifficultyMeta = window.Difficulty;
+
+        // Functions
+        // INIT
+        console.log("GridOverlayButtonsDiv");
+        console.log(this.GridOverlayButtonsDiv);
+
+        for (const Difficulty in AllDifficultyMeta) 
+        {
+            const DifficultyMeta = AllDifficultyMeta[Difficulty];
+            const DifficultyCSSColour = UtilitiesModule.ArrayToCSSColour(DifficultyMeta["Colour"]);
+
+            DebugModule.Print("Setting up Difficulty Button: " + Difficulty);
+
+            let [DifficultyButtonComponentWrapperDiv, DifficultyButtonInstance] = await ComponentsModule.GetAndLoadComponent("Button", 
+            {
+                "Parent" : this.GridOverlayButtonsDiv,
+                "Args": [Difficulty]
+            });
+
+
+            DifficultyButtonInstance.Button.style.borderColor = DifficultyCSSColour;
+            DifficultyButtonInstance.Button.style.color = DifficultyCSSColour;
+
+            DifficultyButtonInstance.Clicked = function() 
+            {
+                return ResolvePromise(Difficulty);
+            }
+        }
+
+        return EventPromise;
+    }
 
     async SetupTiles() 
     {
@@ -337,7 +382,7 @@ class Game
 
     }
 
-    async Initialise(Difficulty) 
+    async Initialise() //Difficulty) 
     {
 
         // CORE
@@ -354,10 +399,19 @@ class Game
 
         // Functions
         // INIT
+        await this.HandleTopRow();
+
+
+        UtilitiesModule.Hide(this.GridOverlayText);
+
+        const Difficulty = await this.SetupDifficultyButtons();
+
+        UtilitiesModule.Hide(this.GridOverlayButtonsDiv);
+        UtilitiesModule.DestroyChildren(this.GridOverlayButtonsDiv);
+
         this.Difficulty = Difficulty;
         this.DifficultyMeta = window.Difficulty[Difficulty];
 
-        await this.HandleTopRow();
         await this.SetupTiles();
 
         RenderPipelineModule.Bind("GridOverlay", this.RenderGridOverlay.bind(this));
@@ -371,7 +425,7 @@ class Game
         // INIT
         RenderPipelineModule.Unbind("MainLoop");
         RenderPipelineModule.Unbind("GridOverlay");
-
+        UtilitiesModule.DestroyChildren(this.TopRowDiv);
     }
 }
 

@@ -13,7 +13,6 @@ async function LoadedCallback()
 {
     // Functions
     // INIT
-    
     let BodyContentDiv = PageComponents["Topbar"].querySelector("#BodyContent");
 
     let [GameComponentWrapperDiv, GameInstance] = await ComponentsModule.GetAndLoadComponent("Game", 

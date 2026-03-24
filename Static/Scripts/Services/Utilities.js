@@ -2,6 +2,47 @@ let UtilitiesModule = {};
 
 // Functions
 // DIRECT
+UtilitiesModule.Show = function(Element) 
+{
+    // Functions
+    // INIT
+    Element.style.visibility = "visible";
+}
+
+UtilitiesModule.Hide = function(Element) 
+{
+    // Functions
+    // INIT
+    Element.style.visibility = "hidden";
+}
+
+UtilitiesModule.CloneArray = function(Array) 
+{
+    // Functions
+    // INIT
+    return [...Array];
+}
+
+UtilitiesModule.DestroyChildren = function(Parent) 
+{
+    // Functions
+    // INIT
+    for (const Child of UtilitiesModule.CloneArray(Parent.children)) 
+    {
+        UtilitiesModule.Destroy(Child);
+    }
+}
+
+UtilitiesModule.ArrayToCSSColour = function(Array) 
+{
+    // CORE
+    const [R = 0, G = 0, B = 0, A = 1] = Array;
+    
+    // Functions
+    // INIT
+    return `rgba(${R}, ${G}, ${B}, ${A})`;
+}
+
 UtilitiesModule.ClearArray = function(Array) 
 {
     // Functions

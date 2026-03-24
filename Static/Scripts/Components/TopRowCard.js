@@ -24,14 +24,14 @@ class TopRowCard
         this.CardTextHeading.innerHTML = Math.floor(this.GameInstance.TopRowValues[this.TopRowKey] || 0);
     }
 
-    Initialise(GameInstance, TopRowKey) 
+    Initialise(GameInstance, TopRowKey, TitleDisplayText) 
     {
         // Functions
         // INIT
         this.GameInstance = GameInstance;
         this.TopRowKey = TopRowKey;
 
-        this.CardTitleHeading.innerHTML = TopRowKey;
+        this.CardTitleHeading.innerHTML = TitleDisplayText || TopRowKey;
 
         RenderPipelineModule.Bind(this, this.Render.bind(this));
     }

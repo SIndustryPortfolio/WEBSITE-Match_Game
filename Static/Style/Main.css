@@ -16,3 +16,12 @@ body
     height: calc(100vh - var(--TopbarHeight) - var(--FooterHeight));
     overflow-y: scroll;
 }
+
+button 
+{
+    border: solid 5px grey;
+    border-radius: 12px;
+    box-sizing: border-box;
+    background-color: rgba(32, 32, 32, 1);
+    cursor: grab;
+}

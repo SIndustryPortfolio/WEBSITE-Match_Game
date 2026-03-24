@@ -1,0 +1,41 @@
+// CLASS
+class Button 
+{
+    constructor(ComponentWrapperDiv) 
+    {
+        // Functions
+        // INIT
+        this.Element = ComponentWrapperDiv;
+        this.Button = ComponentWrapperDiv.querySelector("#Button");
+
+        this.Clicked = undefined;
+    }
+
+    ClickedCallback() 
+    {
+        // Functions
+        // INIT
+        if (this.Clicked == undefined) 
+        {
+            return;
+        }
+
+        return this.Clicked();
+    }
+
+    Initialise(Text) 
+    {
+        // Functions
+        // INIT
+        this.Button.innerHTML = Text;
+
+        this.Element.onclick = this.ClickedCallback.bind(this);
+    }
+
+    End() 
+    {
+
+    }
+}
+
+export default Button;

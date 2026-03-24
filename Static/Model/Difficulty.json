@@ -2,16 +2,19 @@
     "Easy" : 
     {
         "Lives" : 10,
-        "GridSize" : 16
+        "GridSize" : 16,
+        "Colour": [0, 255, 0]
     },
     "Medium": 
     {
         "Lives" : 5,
-        "GridSize" : 25
+        "GridSize" : 25,
+        "Colour": [200, 200, 0]
     },
     "Hard" : 
     {
         "Lives" : 3,
-        "GridSize" : 36
+        "GridSize" : 36,
+        "Colour": [255, 0, 0]
     }
 }
