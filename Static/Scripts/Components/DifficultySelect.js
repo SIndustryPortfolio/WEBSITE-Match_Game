@@ -2,6 +2,7 @@
 import UtilitiesModule from "../Services/Utilities.js";
 import DebugModule from "../Services/Debug.js";
 import ComponentsModule from "../Services/Components.js";
+import RenderPipelineModule from "../Services/RenderPipeline.js";
 
 // CLASS
 class DifficultySelect 
@@ -24,11 +25,13 @@ class DifficultySelect
 
         // Functions
         // INIT
-        console.log("GridOverlayButtonsDiv");
-        console.log(this.GridOverlayButtonsDiv);
+        DebugModule.Print("GridOverlayButtonsDiv");
+        DebugModule.Print(this.GridOverlayButtonsDiv);
 
         for (const Difficulty in AllDifficultyMeta) 
         {
+            await RenderPipelineModule.Wait(.5);
+
             const DifficultyMeta = AllDifficultyMeta[Difficulty];
             const DifficultyCSSColour = UtilitiesModule.ArrayToCSSColour(DifficultyMeta["Colour"]);
 
@@ -40,9 +43,10 @@ class DifficultySelect
                 "Args": [Difficulty]
             });
 
-
             DifficultyButtonInstance.Button.style.borderColor = DifficultyCSSColour;
-            //  DifficultyButtonInstance.Button.style.color = DifficultyCSSColour;
+            DifficultyButtonInstance.Button.style.color = DifficultyCSSColour;
+
+            DifficultyButtonComponentWrapperDiv.classList.add("FadeUp");
 
             DifficultyButtonInstance.Clicked = function() 
             {
@@ -53,7 +57,7 @@ class DifficultySelect
         return EventPromise;
     }
 
-    Initialise() 
+    async Initialise() 
     {
         // Functions
         // INIT

@@ -45,7 +45,7 @@ async function HandleGlobals()
     window.Match = MatchJSON;
     window.Difficulty = DifficultyJSON;
 
-    console.log(window.Difficulty);
+    DebugModule.Print(window.Difficulty);
 }
 
 function HandlePage() 

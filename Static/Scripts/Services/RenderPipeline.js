@@ -11,6 +11,35 @@ let CoreRenderIndex = 0;
 
 // Functions
 // MECHANICS
+function Wait(Time) 
+{
+    // CORE
+    let ResolveRender;
+    let RenderKey;
+
+    const RenderPromise = new Promise(resolve => {
+        ResolveRender = resolve;
+    });
+
+    // FUNCTIONS
+    // MECHANICS
+    function Render(DeltaTime, AccumulatedTime) 
+    {
+        // Functions
+        // INIT
+        if (AccumulatedTime > Time) 
+        {
+            RenderPipelineModule.Unbind(RenderKey);
+            return ResolveRender();
+        }
+    }
+
+    // INIT
+    RenderKey = RenderPipelineModule.Bind(undefined, Render);
+
+    return RenderPromise;
+}
+
 function Bind(Key, Callback, Options) 
 {
     // CORE
@@ -71,7 +100,7 @@ function Initialise()
         // INIT
         //DebugModule.Print("Render Loop | DT: " + DeltaTime + " | AT: " + AccumulatedTime);
 
-        //console.log(RenderCache);
+        //DebugModule.Print(RenderCache);
 
         for (const [MetaKey, CallableMeta] of RenderCache) 
         {
@@ -109,6 +138,8 @@ function End()
 // DIRECT
 RenderPipelineModule.Initialise = Initialise;
 RenderPipelineModule.End = End;
+
+RenderPipelineModule.Wait = Wait;
 
 RenderPipelineModule.Bind = Bind;
 RenderPipelineModule.Unbind = Unbind;

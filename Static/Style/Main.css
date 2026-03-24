@@ -17,12 +17,30 @@ body
     overflow-y: scroll;
 }
 
-button 
+.FadeUp {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: FadeUpAnimation 0.8s ease-out forwards;
+}
+
+.Expand 
 {
-    border: solid 3px grey;
-    color: white;
-    border-radius: 12px;
-    box-sizing: border-box;
-    background-color: rgba(32, 32, 32, 1);
-    cursor: grab;
+    animation: ExpandAnimation 0.8s ease-out forwards;
+}
+
+@keyframes FadeUpAnimation {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes ExpandAnimation {
+    from 
+    {
+        scale: calc(0%);
+    }
+    to {
+        scale: calc(100%);
+    }
 }

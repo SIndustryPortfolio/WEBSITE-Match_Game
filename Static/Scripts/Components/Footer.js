@@ -8,7 +8,7 @@ class Footer
         this.Element = ComponentWrapperDiv;
     }
 
-    Initialise() 
+    async Initialise() 
     {
         // Functions
         // INIT

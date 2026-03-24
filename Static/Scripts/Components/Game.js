@@ -137,12 +137,12 @@ class Game
 
                 return ResolvePromise();
             }
+
+            UtilitiesModule.Show(this.GridOverlayDiv);
+            UtilitiesModule.Show(this.GridOverlayText);
         }
 
         // INIT
-        UtilitiesModule.Show(this.GridOverlayDiv);
-        UtilitiesModule.Show(this.GridOverlayText);
-
         RenderPipelineModule.Bind("CountdownBlur", Render.bind(this));
 
         return RenderPromise;
@@ -163,7 +163,7 @@ class Game
         // MECHANICS
         function Render(DeltaTime, AccumulatedTime) 
         {
-            //console.log("AccumulatedTime: " + AccumulatedTime); 
+            //DebugModule.Print("AccumulatedTime: " + AccumulatedTime); 
 
             //  Functions
             // INIT
@@ -323,10 +323,16 @@ class Game
 
                 this.HandleTileTemplate(TileWrapperDiv, TileInstance);
 
+                TileWrapperDiv.classList.add("Expand");
+
+                await RenderPipelineModule.Wait(0.05);
+
                 TilesOrder.push(TileWrapperDiv);
                 this.TileCache.set(TileWrapperDiv, TileInstance);
             }
         }
+
+        await RenderPipelineModule.Wait(1);
 
         UtilitiesModule.ShuffleArray(TilesOrder);
 
@@ -334,12 +340,8 @@ class Game
         {
             const TileWrapperDiv = TilesOrder[i];
             
-            console.log(TileWrapperDiv);
-
             TileWrapperDiv.style.order = `${i}`;
-
         }
-
     }
 
     async Initialise() //Difficulty) 
@@ -360,6 +362,7 @@ class Game
         // Functions
         // INIT
         UtilitiesModule.Hide(this.Element);
+        UtilitiesModule.Hide(this.GridOverlayText);
 
         //const Difficulty = await this.SetupDifficultyButtons();
 
@@ -377,11 +380,11 @@ class Game
         this.DifficultyMeta = window.Difficulty[Difficulty];
 
         await this.HandleTopRow();
-        await this.SetupTiles();
 
         RenderPipelineModule.Bind("GridOverlay", this.RenderGridOverlay.bind(this));
         
         UtilitiesModule.Show(this.Element);
+        await this.SetupTiles();
         await this.GameStart();
     }
 

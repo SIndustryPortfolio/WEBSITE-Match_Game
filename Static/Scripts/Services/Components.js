@@ -138,7 +138,7 @@ async function LoadComponent(ComponentWrapperDiv, Options)
 
         if (Instance.Initialise != undefined) 
         {
-            Instance.Initialise(...Options["Args"]);
+            await Instance.Initialise(...Options["Args"]);
         }
     }
 

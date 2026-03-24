@@ -1,27 +1,54 @@
 #Component-DifficultySelect 
 {
-    width: 100%;
-    height: 100%;
+    width: 40%;
+    height: 30rem;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    
+    margin: 0;
+    padding: 0;
+
+    background-color: rgba(16, 16, 16, 1);
+    border: 5px solid grey;
+    border-radius: 12px;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.5);
+}
+
+#Component-DifficultySelect #Overlay 
+{
+    z-index: 2;
+    position: absolute;
+    top: 0;
+    filter: blur(4px);
+    background: rgba(200, 200, 200, 0.25);
+    width: 100%;
+    height: 100%;
+}
+
+#Component-DifficultySelect h1 
+{
+    z-index: 3;
+    text-align: center;
+    color: white;
 }
 
 #Component-DifficultySelect #ButtonsHolder 
 {
+    z-index: 3;
     display: grid !important;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 10px;
     width: 80%;
     height: 20%;
-    z-index: inherit;
+    margin: 0;
 }
 
 #Component-DifficultySelect #ButtonsHolder Button 
 {
     width: 100%;
     height: 100%;
-    font-size: 1.5em;
+    font-size: 1.75em;
     z-index: inherit;
 }

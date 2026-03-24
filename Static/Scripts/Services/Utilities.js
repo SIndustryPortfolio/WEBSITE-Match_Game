@@ -2,6 +2,21 @@ let UtilitiesModule = {};
 
 // Functions
 // DIRECT
+UtilitiesModule.WaitForTransition = function(_Element) 
+{
+    // Functions
+    // INIT
+    return new Promise((resolve) => {
+
+        const handler = ((event) => {
+            _Element.removeEventListener('transitionend', handler);
+            return resolve(event);
+        });
+
+        _Element.addEventListener('transitionend', handler);
+    });
+}
+
 UtilitiesModule.Show = function(Element) 
 {
     // Functions

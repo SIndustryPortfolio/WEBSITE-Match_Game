@@ -11,6 +11,7 @@
     overflow: hidden;
     box-sizing: border-box;
     text-align: center;
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.5);
 }
 
 #Component-TopRowCard #CardText

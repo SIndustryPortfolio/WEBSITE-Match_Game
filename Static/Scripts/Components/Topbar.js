@@ -8,7 +8,7 @@ class Topbar
         this.Element = ComponentWrapperDiv;
     }
 
-    Initialise() 
+    async Initialise() 
     {
 
     }

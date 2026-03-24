@@ -23,7 +23,7 @@ class Button
         return this.Clicked();
     }
 
-    Initialise(Text) 
+    async Initialise(Text) 
     {
         // Functions
         // INIT

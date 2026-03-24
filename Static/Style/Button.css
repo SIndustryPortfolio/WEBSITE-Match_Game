@@ -1,0 +1,22 @@
+button 
+{
+    border: solid 3px grey;
+    color: white;
+    border-radius: 12px;
+    box-sizing: border-box;
+    background-color: rgba(32, 32, 32, 1);
+    cursor: grab;
+    overflow: hidden;
+}
+
+
+#Component-Button 
+{
+    transition: scale .3s ease !important;
+}
+
+#Component-Button:hover 
+{
+    scale: calc(105%);
+
+}

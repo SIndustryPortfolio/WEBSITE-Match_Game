@@ -24,7 +24,7 @@ class TopRowCard
         this.CardTextHeading.innerHTML = Math.floor(this.GameInstance.TopRowValues[this.TopRowKey] || 0);
     }
 
-    Initialise(GameInstance, TopRowKey, TitleDisplayText) 
+    async Initialise(GameInstance, TopRowKey, TitleDisplayText) 
     {
         // Functions
         // INIT

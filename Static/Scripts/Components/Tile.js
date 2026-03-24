@@ -104,7 +104,7 @@ class Tile
         UtilitiesModule.ScaleText(this.TileVisual, 0.5);
     }
 
-    Initialise(ItemName) 
+    async Initialise(ItemName) 
     {
         // CORE
         const ItemMeta = window.Match["Items"][ItemName];
