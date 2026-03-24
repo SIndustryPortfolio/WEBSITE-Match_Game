@@ -19,6 +19,7 @@ class Game
         
         this.GridOverlayDiv = ComponentWrapperDiv.querySelector("#GridOverlay");
         this.GridOverlayText = ComponentWrapperDiv.querySelector("#GridOverlayText");
+        this.GridOverlayBlurDiv = ComponentWrapperDiv.querySelector("#GridOverlayBlur");
 
         this.TileGridDiv = ComponentWrapperDiv.querySelector("#TileGrid");
         this.BottomRowDiv = ComponentWrapperDiv.querySelector("#BottomRow");
@@ -106,7 +107,7 @@ class Game
         }
     }
 
-    CountdownBlur() 
+    async CountdownBlur() 
     {
         // CORE
         const CountdownFrom = 3;
@@ -122,11 +123,17 @@ class Game
         {
             // CORE
             const TimeToDisplay = Math.ceil(CountdownFrom - AccumulatedTime);
-            
+            const TransparencyPercentage = UtilitiesModule.Clamp(AccumulatedTime / (CountdownFrom * 0.75), 0, 1);
+
+            const Opacity = UtilitiesModule.Clamp(UtilitiesModule.Lerp(1, 0, TransparencyPercentage) * 100, 0, 100);
+
             // Functions
             // INIT
 
             this.GridOverlayText.innerHTML = TimeToDisplay;
+
+            this.GridOverlayBlurDiv.style.opacity = `${Opacity}%`;
+            
 
             if (AccumulatedTime > CountdownFrom) 
             {

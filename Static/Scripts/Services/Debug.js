@@ -1,7 +1,7 @@
 let DebugModule = {}
 
 // CORE
-const DebugMode = false;
+const DebugMode = true;
 
 // Functions
 // MECHANICS
