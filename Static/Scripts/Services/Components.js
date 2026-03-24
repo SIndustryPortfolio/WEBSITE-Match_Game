@@ -68,6 +68,8 @@ async function GetComponent(HTMLComponentName)
     ComponentWrapperDiv.id = "Component-" + HTMLComponentName;
     ComponentWrapperDiv.name = HTMLComponentName;
     ComponentWrapperDiv.style.position = "relative";
+    ComponentWrapperDiv.style.display = "flex";
+    ComponentWrapperDiv.style.flexDirection = "column";
 
     try 
     {
