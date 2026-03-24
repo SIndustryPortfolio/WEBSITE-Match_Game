@@ -8,13 +8,13 @@
     "Medium": 
     {
         "Lives" : 5,
-        "GridSize" : 25,
+        "GridSize" : 36,
         "Colour": [200, 200, 0]
     },
     "Hard" : 
     {
         "Lives" : 3,
-        "GridSize" : 36,
+        "GridSize" : 64,
         "Colour": [255, 0, 0]
     }
 }

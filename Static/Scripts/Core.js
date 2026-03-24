@@ -52,6 +52,8 @@ function HandlePage()
 {
     // Functions
     // INIT
+    document.title = window.Core["SiteName"];
+
     DebugModule.Print("Handling Page!");
 
     if (document.readyState == "loading") 

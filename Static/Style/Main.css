@@ -11,7 +11,7 @@ body
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     width: 100vw;
     height: calc(100vh - var(--TopbarHeight) - var(--FooterHeight));
     overflow-y: scroll;

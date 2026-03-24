@@ -348,7 +348,7 @@ class Game
         this.TileGridDiv.style.gridTemplateColumns = `repeat(${TilesInDirection}, minmax(0, 1fr))`;
         this.TileGridDiv.style.gap = "10px";
 
-        for (let i = 0; i < TotalTiles / 2; i++) 
+        for (let i = 0; i < Math.floor(TotalTiles / 2); i++) 
         {
             const RandomItemNumber = UtilitiesModule.GetRandomInt(0, AllItemNames.length - 1);
             const ItemName = AllItemNames[RandomItemNumber];
@@ -399,8 +399,6 @@ class Game
 
         // Functions
         // INIT
-        await this.HandleTopRow();
-
 
         UtilitiesModule.Hide(this.GridOverlayText);
 
@@ -412,6 +410,7 @@ class Game
         this.Difficulty = Difficulty;
         this.DifficultyMeta = window.Difficulty[Difficulty];
 
+        await this.HandleTopRow();
         await this.SetupTiles();
 
         RenderPipelineModule.Bind("GridOverlay", this.RenderGridOverlay.bind(this));
