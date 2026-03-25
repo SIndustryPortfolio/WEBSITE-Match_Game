@@ -1,0 +1,18 @@
+{
+    "Great" : 
+    {
+        "DisplayText" : "🔥 GREAT 🔥"
+    },
+    "Super" : 
+    {
+        "DisplayText" : "⚡ SUPER ⚡"
+    },
+    "Epic" :  
+    {
+        "DisplayText" : "🥶 EPIC 🥶"
+    },
+    "Amazing" : 
+    {
+        "DisplayText" : "🌈 AMAZING 🌈"
+    }
+}

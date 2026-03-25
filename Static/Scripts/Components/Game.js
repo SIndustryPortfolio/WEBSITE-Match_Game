@@ -24,6 +24,8 @@ class Game
         this.GridOverlayTopRow = ComponentWrapperDiv.querySelector("#GridOverlayTopRow");
         this.GridOverlayContentDiv = ComponentWrapperDiv.querySelector("#GridOverlayContent");
 
+        this.NarratorHolderDiv = ComponentWrapperDiv.querySelector("#NarratorHolder");
+
         this.TileGridDiv = ComponentWrapperDiv.querySelector("#TileGrid");
         this.BottomRowDiv = ComponentWrapperDiv.querySelector("#BottomRow");
 
@@ -215,6 +217,8 @@ class Game
         // Functions
         // INIT
 
+        this.GameState = "Ended";
+
         RenderPipelineModule.Unbind("MainLoop");
 
         await this.ShowResults();
@@ -238,6 +242,27 @@ class Game
         await this.GameEnd();
     }
 
+    async RandomNarrator() 
+    {
+        // CORE
+        const AllNarratorMeta = UtilitiesModule.GetDictKeys(window.Narrator);
+        const RandomNarratorIndex = UtilitiesModule.GetRandomInt(0, AllNarratorMeta.length - 1);
+
+        const ChosenNarrator = AllNarratorMeta[RandomNarratorIndex];
+
+        // Functions
+        // INIT
+        for (const NarratorComponentWrapperDiv of this.NarratorHolderDiv.children) 
+        {
+            ComponentsModule.RemoveComponent(NarratorComponentWrapperDiv);
+        }
+
+        ComponentsModule.GetAndLoadComponent("Narrator", 
+        {
+            "Parent" : this.NarratorHolderDiv,
+            "Args" : [ChosenNarrator]
+        })
+    }
 
     async CheckIfMatchingPair() 
     {
@@ -260,6 +285,8 @@ class Game
             Tile2Instance.Disabled = true;
 
             this.Sounds["Correct"].play();
+
+            await this.RandomNarrator();
 
             Tile1Instance.Success();
             await Tile2Instance.Success();
@@ -440,13 +467,22 @@ class Game
     {
         // Functions
         // INIT
+        UtilitiesModule.DestroyChildren(this.NarratorHolderDiv);
+
         this.GridOverlayText.innerHTML = "YOU WIN!";
+
+        const TopRowElementsCount = this.TopRowDiv.children.length;
+
         this.GridOverlayTopRow.append(...this.TopRowDiv.children);
+
+        this.GridOverlayTopRow.style.gridTemplateColumns = `repeat(${TopRowElementsCount}, 1fr)`;
 
         this.GridOverlayTextScale = 0.125;
         this.GridOverlayBlurDiv.style.opacity = "100%";
 
-        UtilitiesModule.Show(this.GridHolderDiv, this.GridOverlayText, this.GridOverlayTopRow, this.GridOverlayBlurDiv);
+        UtilitiesModule.Show(this.GridHolderDiv, this.GridOverlayText, this.GridOverlayTopRow, this.GridOverlayBlurDiv, this.GridOverlayContentDiv);
+
+        this.GridOverlayContentDiv.classList.add("GridOverlayContentResults");
 
         this.Sounds["Win"].play();
 

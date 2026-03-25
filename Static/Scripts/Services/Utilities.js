@@ -46,7 +46,7 @@ UtilitiesModule.DestroyChildren = function(Parent)
 {
     // Functions
     // INIT
-    for (const Child of UtilitiesModule.CloneArray(Parent.children)) 
+    for (let Child of UtilitiesModule.CloneArray(Parent.children)) 
     {
         UtilitiesModule.Destroy(Child);
     }

@@ -40,12 +40,14 @@ async function HandleGlobals()
     const CoreJSON = await fetch(ModelPath + "Core.json").then(response => response.json());
     const MatchJSON = await fetch(ModelPath + "Match.json").then(response =>  response.json());
     const DifficultyJSON = await fetch(ModelPath + "Difficulty.json").then(response => response.json());
+    const NarratorJSON = await fetch(ModelPath + "Narrator.json").then(response => response.json());
     
     window.Core = CoreJSON;
     window.Match = MatchJSON;
     window.Difficulty = DifficultyJSON;
+    window.Narrator = NarratorJSON;
 
-    DebugModule.Print(window.Difficulty);
+    //DebugModule.Print(window.Difficulty);
 }
 
 function HandlePage() 

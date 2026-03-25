@@ -61,16 +61,22 @@ async function GetComponentModule(ComponentName)
 async function RemoveComponent(ComponentWrapperDiv) 
 {
     // CORE
-    const Cache = ComponentCache.get(ComponentWrapperDiv);
+    let Cache = ComponentCache.get(ComponentWrapperDiv);
     
     // Functions
     // INIT
-    if (Cache["Instance"] != undefined) 
+    if (Cache == undefined) 
     {
-        Cache["Instance"].End();
+        return;
     }
 
     ComponentCache.delete(ComponentWrapperDiv);
+
+    if (Cache["Instance"] != undefined) 
+    {
+        await Cache["Instance"].End(Cache);
+    }
+
     UtilitiesModule.Destroy(ComponentWrapperDiv);
 
     Cache, ComponentWrapperDiv = undefined;
@@ -102,10 +108,7 @@ async function GetComponent(HTMLComponentName)
 
     ComponentWrapperDiv.innerHTML = ComponentRawHTML;
 
-    ComponentCache.set(ComponentWrapperDiv, 
-    {
-        "Module": undefined     
-    });   
+    ComponentCache.set(ComponentWrapperDiv, {});   
     
 
     return ComponentWrapperDiv;

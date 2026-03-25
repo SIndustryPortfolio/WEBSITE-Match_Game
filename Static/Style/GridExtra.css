@@ -1,0 +1,95 @@
+#GridOverlayContent 
+{
+    width: 100%;
+    height: 100%;
+
+    z-index: 4;
+
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: 20px;
+}
+
+.GridOverlayContentResults
+{
+    background: rgba(16, 16, 16, 0.75);
+    border-radius: 12px;
+    padding: 24px;
+
+    width: auto !important;
+    height: auto !important;
+    inset: auto !important;
+
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.5);
+}
+
+.GridOverlayContentResults
+{
+    background: rgba(16, 16, 16, 0.75);
+    border-radius: 12px;
+    padding: 24px;
+
+    width: auto !important;
+    height: auto !important;
+    inset: auto !important;
+
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.5);
+}
+
+
+
+#GridOverlayTopRow
+{
+    z-index: 4;
+
+    display: grid;
+    /*flex-direction: row;
+    align-items: center;
+    justify-content: center;*/
+    gap: 10px;
+}   
+
+#GridHolder 
+{
+    min-width: 100%;
+    /*overflow: hidden;*/
+}
+
+#GridOverlayBlur 
+{
+    z-index: 3;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(16, 16, 16, 0.85);
+    border-radius: 12px;
+    filter: blur(10px);
+}
+
+#GridOverlayText 
+{
+    text-align: center;
+    color: white;
+    margin: 0;
+}
+
+#GridOverlay 
+{
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    justify-self: center;
+    align-self: center;
+}

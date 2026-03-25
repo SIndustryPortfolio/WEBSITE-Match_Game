@@ -5,7 +5,8 @@ import UtilitiesModule from "../Services/Utilities.js";
 const AudioPath = "Static/Audio/";
 
 const Sounds = {
-    "Click" : new Audio(AudioPath + "Click.mp3")
+    "Click" : new Audio(AudioPath + "Click.mp3"),
+    "Draw" : new Audio(AudioPath + "Draw.mp3")
 };
 
 // CLASS
@@ -42,6 +43,13 @@ class Topbar
         return this.Clicked();
     }
 
+    MouseHoverCallback() 
+    {
+        // Functions
+        // INIT
+        Sounds["Draw"].play();
+    }
+
     async Initialise(Difficulty, Text) 
     {
         // CORE
@@ -58,6 +66,7 @@ class Topbar
         this.CardIconImage.src = DifficultyMeta["Icon"];
 
         this.Element.onclick = this.ClickedCallback.bind(this);
+        this.Element.onmouseover = this.MouseHoverCallback.bind(this);
     }
 
     End() 

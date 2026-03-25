@@ -23,9 +23,21 @@
   animation: FadeUpAnimation 0.8s ease-out forwards;
 }
 
+.FadeOut 
+{
+  animation: FadeOutAnimation 0.8s ease-out forwards;
+}
+
 .Expand 
 {
     animation: ExpandAnimation 0.8s ease-out forwards;
+}
+
+@keyframes FadeOutAnimation 
+{
+  to {
+    opacity: 0;
+  }
 }
 
 @keyframes FadeUpAnimation {
@@ -71,7 +83,7 @@ body {
   border-radius: 50%;
   filter: blur(120px);
   opacity: 0.6;
-  animation: float 20s infinite ease-in-out;
+  animation: FloatingAnimation 20s infinite ease-in-out;
 }
 
 /* Blob 1 */
@@ -113,7 +125,7 @@ body {
 }
 
 /* Smooth floating animation */
-@keyframes float {
+@keyframes FloatingAnimation {
   0%, 100% {
     transform: translate(0, 0) scale(1);
   }
