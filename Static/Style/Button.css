@@ -13,7 +13,17 @@ button
 #Component-Button 
 {
     transition: scale .3s ease !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
+
+#Component-Button button 
+{
+    width: 100%;
+    height: 100%;
+}
+
 
 #Component-Button:hover 
 {

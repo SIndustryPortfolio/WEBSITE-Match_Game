@@ -22,6 +22,7 @@ class Game
         this.GridOverlayText = ComponentWrapperDiv.querySelector("#GridOverlayText");
         this.GridOverlayBlurDiv = ComponentWrapperDiv.querySelector("#GridOverlayBlur");
         this.GridOverlayTopRow = ComponentWrapperDiv.querySelector("#GridOverlayTopRow");
+        this.GridOverlayContentDiv = ComponentWrapperDiv.querySelector("#GridOverlayContent");
 
         this.TileGridDiv = ComponentWrapperDiv.querySelector("#TileGrid");
         this.BottomRowDiv = ComponentWrapperDiv.querySelector("#BottomRow");
@@ -195,8 +196,10 @@ class Game
         // Functions
         // INIT
 
+        RenderPipelineModule.Unbind("MainLoop");
 
-        this.End();
+        await this.ShowResults();
+        await this.End();
     }
 
     async GameStart() 
@@ -365,6 +368,7 @@ class Game
         this.Sounds = {
             "Correct" : new Audio(AudioPath + "Correct.mp3"),
             "Incorrect" : new Audio(AudioPath + "Incorrect.mp3"),
+            "Win" : new Audio(AudioPath + "Win.mp3"),
             //
             "Click" : new Audio(AudioPath + "Click.mp3")
         };
@@ -411,7 +415,7 @@ class Game
         await this.GameStart();
     }
 
-    ShowResults() 
+    async ShowResults() 
     {
         // Functions
         // INIT
@@ -423,16 +427,36 @@ class Game
 
         UtilitiesModule.Show(this.GridHolderDiv, this.GridOverlayText, this.GridOverlayTopRow, this.GridOverlayBlurDiv);
 
+        this.Sounds["Win"].play();
+
+        await RenderPipelineModule.Wait(1);
+
+        let [PlayAgainComponentWrapperDiv, PlayAgainInstance] = await ComponentsModule.GetAndLoadComponent("Button", 
+        {
+            "Parent" : this.GridOverlayContentDiv,
+            "Args" : ["Play Again"]
+        })
+
+        PlayAgainInstance.Element.style.width = "80%";
+        PlayAgainInstance.Element.style.height = "50px";
+
+        PlayAgainInstance.Element.classList.add("FadeUp");
+        UtilitiesModule.Show(PlayAgainInstance.Element);
+
+        PlayAgainInstance.Clicked = function() 
+        {
+            // Functions
+            // INIT
+            return location.reload(true);
+        }
     }
 
-    End() 
+    async End() 
     {
         // Functions
         // INIT
         RenderPipelineModule.Unbind("MainLoop");
         //RenderPipelineModule.Unbind("GridOverlay");
-
-        this.ShowResults();
 
         UtilitiesModule.DestroyChildren(this.TopRowDiv);
     }
