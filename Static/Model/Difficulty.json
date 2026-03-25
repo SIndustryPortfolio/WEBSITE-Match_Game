@@ -1,20 +1,26 @@
 {
     "Easy" : 
     {
+        "Icon" : "Static/Images/Smile.png",
         "Lives" : 10,
         "GridSize" : 16,
+        "Description" : "Less cards, quicker wins!",
         "Colour": [0, 255, 0]
     },
     "Medium": 
     {
+        "Icon" : "Static/Images/Normal.png",
         "Lives" : 5,
         "GridSize" : 36,
+        "Description" : "A balanced game of match",
         "Colour": [200, 200, 0]
     },
     "Hard" : 
     {
+        "Icon" : "Static/Images/Frown.png",
         "Lives" : 3,
         "GridSize" : 64,
+        "Description" : "More cards, more fun!",
         "Colour": [255, 0, 0]
     }
 }

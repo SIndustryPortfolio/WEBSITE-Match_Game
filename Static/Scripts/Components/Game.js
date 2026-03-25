@@ -115,6 +115,8 @@ class Game
     {
         // CORE
         const CountdownFrom = 3;
+        let LastWholeCountdownNumber;
+
         let ResolvePromise;
         const RenderPromise = new Promise(resolve => 
         {
@@ -133,6 +135,10 @@ class Game
 
             // Functions
             // INIT
+            if (LastWholeCountdownNumber != TimeToDisplay) 
+            {
+                this.Sounds["Tick"].play();
+            }
 
             this.GridOverlayText.innerHTML = TimeToDisplay;
 
@@ -147,6 +153,8 @@ class Game
 
                 return ResolvePromise();
             }
+
+            LastWholeCountdownNumber = TimeToDisplay;
 
             UtilitiesModule.Show(this.GridOverlayDiv, this.GridOverlayText);
         }
@@ -293,7 +301,7 @@ class Game
 
             TileInstance.Show();
 
-            this.Sounds["Click"].play();
+            this.Sounds["Draw"].play();
 
             if (this.CurrentClickedPair.length == 2) 
             {
@@ -370,7 +378,9 @@ class Game
             "Incorrect" : new Audio(AudioPath + "Incorrect.mp3"),
             "Win" : new Audio(AudioPath + "Win.mp3"),
             //
-            "Click" : new Audio(AudioPath + "Click.mp3")
+            "Click" : new Audio(AudioPath + "Click.mp3"),
+            "Tick" : new Audio(AudioPath + "Tick.mp3"),
+            "Draw" : new Audio(AudioPath + "Draw.mp3")
         };
 
         this.GridOverlayTextScale = 1;

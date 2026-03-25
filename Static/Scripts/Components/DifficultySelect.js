@@ -37,21 +37,34 @@ class DifficultySelect
 
             DebugModule.Print("Setting up Difficulty Button: " + Difficulty);
 
-            let [DifficultyButtonComponentWrapperDiv, DifficultyButtonInstance] = await ComponentsModule.GetAndLoadComponent("Button", 
+            let [DifficultyCardComponentWrapperDiv, DifficultyCardInstance] = await ComponentsModule.GetAndLoadComponent("DifficultyCard", 
+            {
+                "Parent" : this.ButtonsHolderDiv,
+                "Args": [Difficulty, DifficultyMeta["Description"]]
+            });
+
+            DifficultyCardComponentWrapperDiv.classList.add("FadeUp")
+
+            DifficultyCardInstance.Clicked = function() 
+            {
+                return ResolvePromise(Difficulty);
+            };
+
+            /*let [DifficultyButtonComponentWrapperDiv, DifficultyButtonInstance] = await ComponentsModule.GetAndLoadComponent("Button", 
             {
                 "Parent" : this.ButtonsHolderDiv,
                 "Args": [Difficulty]
             });
 
             DifficultyButtonInstance.Button.style.borderColor = DifficultyCSSColour;
-            DifficultyButtonInstance.Button.style.color = DifficultyCSSColour;
+            DifficultyButtonInstance.Button.style.color = DifficultyCSSColour;*/
 
-            DifficultyButtonComponentWrapperDiv.classList.add("FadeUp");
+            /*DifficultyButtonComponentWrapperDiv.classList.add("FadeUp");
 
             DifficultyButtonInstance.Clicked = function() 
             {
                 return ResolvePromise(Difficulty);
-            }
+            }*/
         }
 
         return EventPromise;

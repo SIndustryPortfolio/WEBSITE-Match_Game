@@ -1,9 +1,9 @@
-body 
+/*body 
 {
     background-color: rgba(32, 32, 32, 1);
     overflow-x: hidden;
     font-family: Arial, Helvetica, sans-serif;
-}
+}*/
 
 #BodyContent 
 {
@@ -43,4 +43,81 @@ body
     to {
         scale: calc(100%);
     }
+}
+
+body {
+  margin: 0;
+  height: 100vh;
+  background: #0b0f1a;
+  overflow: hidden;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.background {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: -1;
+}
+
+/* Fluid blobs */
+.background::before,
+.background::after {
+  content: "";
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.6;
+  animation: float 20s infinite ease-in-out;
+}
+
+/* Blob 1 */
+.background::before {
+  background: radial-gradient(circle, #4f46e5, transparent 70%);
+  top: -100px;
+  left: -100px;
+}
+
+/* Blob 2 */
+.background::after {
+  background: radial-gradient(circle, #06b6d4, transparent 70%);
+  bottom: -150px;
+  right: -150px;
+  animation-delay: 10s;
+}
+
+/* Optional extra blobs */
+.background div {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.5;
+  animation: float 25s infinite ease-in-out;
+}
+
+.background div:nth-child(1) {
+  background: radial-gradient(circle, #9333ea, transparent 70%);
+  top: 30%;
+  left: 20%;
+}
+
+.background div:nth-child(2) {
+  background: radial-gradient(circle, #22c55e, transparent 70%);
+  bottom: 20%;
+  left: 50%;
+}
+
+/* Smooth floating animation */
+@keyframes float {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(100px, -80px) scale(1.2);
+  }
 }
