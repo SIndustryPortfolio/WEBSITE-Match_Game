@@ -17,18 +17,22 @@ UtilitiesModule.WaitForTransition = function(_Element)
     });
 }
 
-UtilitiesModule.Show = function(Element) 
+UtilitiesModule.Show = function(...Elements) 
 {
     // Functions
     // INIT
-    Element.style.visibility = "visible";
+    for (const Element of [...Elements]) {
+        Element.style.visibility = "visible";
+    };
 }
 
-UtilitiesModule.Hide = function(Element) 
+UtilitiesModule.Hide = function(...Elements) 
 {
     // Functions
     // INIT
-    Element.style.visibility = "hidden";
+    for (const Element of [...Elements]) {
+        Element.style.visibility = "hidden";
+    };
 }
 
 UtilitiesModule.CloneArray = function(Array) 

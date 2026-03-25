@@ -5,6 +5,7 @@ import RenderPipelineModule from "../Services/RenderPipeline.js";
 import UtilitiesModule from "../Services/Utilities.js";
 
 // CORE
+const AudioPath = "Static/Audio/";
 
 // CLASS
 class Game 
@@ -20,6 +21,7 @@ class Game
         this.GridOverlayDiv = ComponentWrapperDiv.querySelector("#GridOverlay");
         this.GridOverlayText = ComponentWrapperDiv.querySelector("#GridOverlayText");
         this.GridOverlayBlurDiv = ComponentWrapperDiv.querySelector("#GridOverlayBlur");
+        this.GridOverlayTopRow = ComponentWrapperDiv.querySelector("#GridOverlayTopRow");
 
         this.TileGridDiv = ComponentWrapperDiv.querySelector("#TileGrid");
         this.BottomRowDiv = ComponentWrapperDiv.querySelector("#BottomRow");
@@ -77,7 +79,7 @@ class Game
         return RenderPromise;
     }
 
-    RenderGridOverlay(DeltaTime, AccumulatedTime) 
+    RenderGridOverlay(DeltaTime, AccumulatedTime, ) 
     {
         // Functions
         // INIT
@@ -87,7 +89,8 @@ class Game
 
         this.GridOverlayDiv.style.width = `${GridWidth}px`;
         this.GridOverlayDiv.style.height = `${GridHeight}px`;
-        UtilitiesModule.ScaleText(this.GridOverlayText,  0.5);
+        
+        UtilitiesModule.ScaleText(this.GridOverlayText,  this.GridOverlayTextScale || 0);             
     }
 
 
@@ -139,14 +142,12 @@ class Game
             {
                 RenderPipelineModule.Unbind("CountdownBlur");
 
-                UtilitiesModule.Hide(this.GridOverlayDiv);
-                UtilitiesModule.Hide(this.GridOverlayText);
+                UtilitiesModule.Hide(this.GridOverlayDiv, this.GridOverlayText);
 
                 return ResolvePromise();
             }
 
-            UtilitiesModule.Show(this.GridOverlayDiv);
-            UtilitiesModule.Show(this.GridOverlayText);
+            UtilitiesModule.Show(this.GridOverlayDiv, this.GridOverlayText);
         }
 
         // INIT
@@ -236,11 +237,15 @@ class Game
             Tile1Instance.Disabled = true;
             Tile2Instance.Disabled = true;
 
+            this.Sounds["Correct"].play();
+
             Tile1Instance.Success();
             await Tile2Instance.Success();
         }
         else 
         {
+            this.Sounds["Incorrect"].play();
+
             Tile1Instance.Failed();
             await Tile2Instance.Failed();
 
@@ -284,6 +289,8 @@ class Game
             this.CurrentClickedPair.push(TileWrapperDiv);
 
             TileInstance.Show();
+
+            this.Sounds["Click"].play();
 
             if (this.CurrentClickedPair.length == 2) 
             {
@@ -355,6 +362,15 @@ class Game
     {
 
         // CORE
+        this.Sounds = {
+            "Correct" : new Audio(AudioPath + "Correct.mp3"),
+            "Incorrect" : new Audio(AudioPath + "Incorrect.mp3"),
+            //
+            "Click" : new Audio(AudioPath + "Click.mp3")
+        };
+
+        this.GridOverlayTextScale = 1;
+
         this.GameState = "Ended";
         this.TileCache = new Map();
 
@@ -368,8 +384,7 @@ class Game
 
         // Functions
         // INIT
-        UtilitiesModule.Hide(this.Element);
-        UtilitiesModule.Hide(this.GridOverlayText);
+        UtilitiesModule.Hide(this.Element, this.GridOverlayText);
 
         //const Difficulty = await this.SetupDifficultyButtons();
 
@@ -388,6 +403,7 @@ class Game
 
         await this.HandleTopRow();
 
+        this.GridOverlayTextScale = 0.5;
         RenderPipelineModule.Bind("GridOverlay", this.RenderGridOverlay.bind(this));
         
         UtilitiesModule.Show(this.Element);
@@ -395,12 +411,29 @@ class Game
         await this.GameStart();
     }
 
+    ShowResults() 
+    {
+        // Functions
+        // INIT
+        this.GridOverlayText.innerHTML = "YOU WIN!";
+        this.GridOverlayTopRow.append(...this.TopRowDiv.children);
+
+        this.GridOverlayTextScale = 0.125;
+        this.GridOverlayBlurDiv.style.opacity = "100%";
+
+        UtilitiesModule.Show(this.GridHolderDiv, this.GridOverlayText, this.GridOverlayTopRow, this.GridOverlayBlurDiv);
+
+    }
+
     End() 
     {
         // Functions
         // INIT
         RenderPipelineModule.Unbind("MainLoop");
-        RenderPipelineModule.Unbind("GridOverlay");
+        //RenderPipelineModule.Unbind("GridOverlay");
+
+        this.ShowResults();
+
         UtilitiesModule.DestroyChildren(this.TopRowDiv);
     }
 }

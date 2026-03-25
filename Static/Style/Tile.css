@@ -9,6 +9,17 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+
+#GridOverlayTopRow
+{
+    z-index: 4;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
 }   
 
 #GridHolder 
@@ -31,6 +42,7 @@
 
 #GridOverlayText 
 {
+    text-align: center;
     color: white;
 }
 

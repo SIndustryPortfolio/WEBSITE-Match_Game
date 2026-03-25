@@ -1,3 +1,10 @@
+// CORE
+const AudioPath = "Static/Audio/";
+
+const Sounds = {
+    "Click" : new Audio(AudioPath + "Click.mp3")
+}
+
 // CLASS
 class Button 
 {
@@ -19,6 +26,8 @@ class Button
         {
             return;
         }
+
+        Sounds["Click"].play();
 
         return this.Clicked();
     }
