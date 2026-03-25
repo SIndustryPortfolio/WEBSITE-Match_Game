@@ -156,3 +156,12 @@
 {
     transform: rotate(15deg);
 }
+
+
+@keyframes RotateTileIcon 
+{
+    to 
+    {
+        
+    }
+}

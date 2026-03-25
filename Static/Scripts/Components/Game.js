@@ -95,10 +95,18 @@ class Game
     }
 
 
-    ToggleAllTiles(ToggleValue) 
+    ToggleAllTiles(ToggleValue, IgnoreSound) 
     {
+        // CORE
+        IgnoreSound = IgnoreSound || false;
+
         // Functions
         // INIT
+        if (!IgnoreSound) 
+        {
+            this.Sounds["Draw"].play();            
+        };
+
         for (let [TileComponentWrapperDiv, TileInstance] of this.TileCache) 
         {
             if (ToggleValue) 
@@ -166,19 +174,19 @@ class Game
     }
 
 
-    TileSneakPeak() 
+    async TileSneakPeak() 
     {
         // CORE
         const SneakPeakTime = 3;
-        let ResolvePromise;
+        /*let ResolvePromise;
         const RenderPromise = new Promise(resolve => 
         {
            ResolvePromise = resolve; 
-        });
+        });*/
 
         // Functions
         // MECHANICS
-        function Render(DeltaTime, AccumulatedTime) 
+        /*function Render(DeltaTime, AccumulatedTime) 
         {
             //DebugModule.Print("AccumulatedTime: " + AccumulatedTime); 
 
@@ -190,13 +198,16 @@ class Game
                 this.ToggleAllTiles(false);
                 return ResolvePromise();
             }
-        }
+        }*/
 
         // INIT
         this.ToggleAllTiles(true);
-        RenderPipelineModule.Bind("TileSneakPeak", Render.bind(this));
+        //RenderPipelineModule.Bind("TileSneakPeak", Render.bind(this));
 
-        return RenderPromise;
+        await RenderPipelineModule.Wait(SneakPeakTime);
+        this.ToggleAllTiles(false);
+
+        //return RenderPromise;
     }
 
     async GameEnd() 
@@ -216,7 +227,7 @@ class Game
         // INIT
         this.GameState = "Starting";
 
-        this.ToggleAllTiles(false);
+        this.ToggleAllTiles(false, true);
 
         await this.CountdownBlur();
         await this.TileSneakPeak();

@@ -53,7 +53,7 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.background {
+.Background {
   position: fixed;
   width: 100%;
   height: 100%;
@@ -62,8 +62,8 @@ body {
 }
 
 /* Fluid blobs */
-.background::before,
-.background::after {
+.Background::before,
+.Background::after {
   content: "";
   position: absolute;
   width: 600px;
@@ -75,22 +75,22 @@ body {
 }
 
 /* Blob 1 */
-.background::before {
+.Background::before {
   background: radial-gradient(circle, #4f46e5, transparent 70%);
   top: -100px;
   left: -100px;
 }
 
 /* Blob 2 */
-.background::after {
+.Background::after {
   background: radial-gradient(circle, #06b6d4, transparent 70%);
   bottom: -150px;
   right: -150px;
   animation-delay: 10s;
 }
 
-/* Optional extra blobs */
-.background div {
+/* Extra blobs */
+.Background div {
   position: absolute;
   width: 500px;
   height: 500px;
@@ -100,13 +100,13 @@ body {
   animation: float 25s infinite ease-in-out;
 }
 
-.background div:nth-child(1) {
+.Background div:nth-child(1) {
   background: radial-gradient(circle, #9333ea, transparent 70%);
   top: 30%;
   left: 20%;
 }
 
-.background div:nth-child(2) {
+.Background div:nth-child(2) {
   background: radial-gradient(circle, #22c55e, transparent 70%);
   bottom: 20%;
   left: 50%;
